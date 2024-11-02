@@ -24,3 +24,26 @@ dist-ssr
 *.sw?
 
 .env
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Media files (if not necessary)
+*.mp4
+*.mov
+*.psd

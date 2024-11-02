@@ -123,9 +123,13 @@ loader.load('./assets/scene3.glb',
         
         function updateModelPosition() {
             if (window.innerWidth < 768) { // md breakpoint
-                model.position.set(5, -20, 1.84); // Centered and lower for mobile
+                model.position.set(5, -15, 1.84);
+                const mobileScale = 20 / maxDimension;
+                model.scale.setScalar(mobileScale);
             } else {
-                model.position.set(25, -6.2, 1.84); // Original position for md and up
+                model.position.set(25, -6.2, 1.84);
+                const scale = 30 / maxDimension;
+                model.scale.setScalar(scale);
             }
         }
         

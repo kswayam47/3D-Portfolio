@@ -347,9 +347,12 @@ button:hover .btn-glow {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .contact-form-container {
+        order: -1;
+    }
+    
     .model-container {
         height: 400px;
-        order: -1;
     }
 }
 

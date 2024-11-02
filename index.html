@@ -223,9 +223,38 @@
           </p>
         </div>
         <div class="absolute top-[40%] md:top-[55%] md:left-[10%] bottom-[15%] left-1/2 -translate-x-1/2 md:translate-x-0 z-[2]">
-          <a href="/about" class="know-more-btn opacity-0 animate-text delay-[900ms]">
-            Know More
-            <span class="arrow"></span>
+          <a href="/about" 
+             class="group opacity-0 animate-text delay-[900ms] relative inline-flex items-center gap-3 
+             md:px-8 md:py-4 px-6 py-3 
+             md:text-lg text-base
+             bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-700 
+             hover:bg-[length:400%_400%] hover:animate-gradient-xy
+             rounded-full font-medium text-white/90 hover:text-white
+             tracking-wide hover:tracking-wider 
+             transition-all duration-500 ease-out 
+             transform hover:-translate-y-1 hover:scale-105 active:translate-y-0 active:scale-95
+             shadow-[0_4px_20px_-4px_rgba(147,51,234,0.5)] 
+             hover:shadow-[0_8px_40px_-4px_rgba(147,51,234,0.6)] 
+             overflow-hidden
+             before:absolute before:inset-0 
+             before:bg-gradient-to-r before:from-purple-800/50 before:via-fuchsia-600/50 before:to-purple-800/50 
+             before:opacity-0 before:hover:opacity-100 
+             before:transition-all before:duration-500 before:-z-10
+             after:absolute after:inset-0 
+             after:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4)_0%,transparent_70%)] 
+             after:opacity-0 after:hover:opacity-100 
+             after:transition-opacity after:duration-500 after:-z-10">
+            <span class="relative z-10 transition-transform duration-500 group-hover:translate-x-1">
+                Know More
+            </span>
+            <span class="relative z-10 flex items-center transition-all duration-500 
+                         group-hover:translate-x-1 group-hover:scale-110">
+                <span class="inline-block md:w-6 w-5 md:h-[2px] h-[1.5px] bg-white/90 group-hover:bg-white 
+                             transition-all duration-500 group-hover:w-8"></span>
+                <span class="absolute right-0 md:w-2 w-1.5 md:h-2 h-1.5 border-r-2 border-b-2 border-white/90 
+                             group-hover:border-white rotate-[-45deg] translate-x-1 -translate-y-[1px]
+                             transition-all duration-500 group-hover:w-3 group-hover:h-3"></span>
+            </span>
           </a>
         </div>
       </div>
