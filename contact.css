@@ -1,0 +1,409 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Satoshi', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    gap: 4rem;
+}
+
+.form-container {
+    flex: 1;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.canvas-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-family: 'Chillax', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    background: linear-gradient(to right, #fff, #60A5FA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #60A5FA;
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+}
+
+label {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+input:focus ~ label,
+input:valid ~ label,
+textarea:focus ~ label,
+textarea:valid ~ label {
+    transform: translateY(-1.5rem) scale(0.8);
+    color: #60A5FA;
+}
+
+.highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(to right, #60A5FA, #34D399);
+    transition: all 0.3s ease;
+}
+
+input:focus ~ .highlight,
+textarea:focus ~ .highlight {
+    width: 100%;
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(45deg, #60A5FA, #34D399);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(96, 165, 250, 0.3);
+}
+
+button:hover .btn-glow {
+    opacity: 1;
+    transform: translate(25%, 25%);
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .form-container {
+        padding: 1.5rem;
+    }
+
+    .canvas-container {
+        height: 300px;
+    }
+}
+
+/* Form styling */
+.contact-form-container {
+    transform: translateY(50px);
+    opacity: 0;
+    animation: slideUp 0.8s ease forwards;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group textarea ~ label {
+    top: 1.5rem;
+}
+
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group textarea:focus ~ label,
+.form-group textarea:not(:placeholder-shown) ~ label {
+    top: 0;
+    transform: translateY(-50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.8);
+    color: #60A5FA;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: transparent;
+}
+
+/* Submit button styling */
+.submit-button {
+    position: relative;
+    padding: 1rem 2rem;
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.5), rgba(52, 211, 153, 0.5));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+    animation-delay: 0.8s;
+}
+
+.submit-button:hover {
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.7), rgba(52, 211, 153, 0.7));
+    transform: translateY(-2px);
+}
+
+.button-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at center,
+        rgba(59, 130, 246, 0.4) 0%,
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.submit-button:hover .button-glow {
+    opacity: 1;
+}
+
+/* 3D Model container styling */
+.model-container {
+    transform: translateX(50px);
+    opacity: 0;
+    animation: slideLeft 0.8s ease forwards;
+    animation-delay: 0.3s;
+}
+
+/* Text gradient */
+.text-gradient {
+    background: linear-gradient(45deg, #60A5FA, #34D399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Animations */
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideLeft {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeDown {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Loading animation for form submission */
+.submit-button.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.submit-button.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin: -10px 0 0 -10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Success/Error message styling */
+.success-message {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    top: 90px;
+    padding: 1rem 2rem;
+    background: rgba(52, 211, 153, 0.9);
+    border-radius: 8px;
+    color: white;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 40;
+    text-align: center;
+    min-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.success-message.error {
+    background: rgba(239, 68, 68, 0.9);
+}
+
+.success-message.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .model-container {
+        height: 400px;
+        order: -1;
+    }
+}
+
+.success-message.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .model-container {
+        height: 400px;
+        order: -1;
+    }
+}
+
+/* Form group styling */
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+/* Input and textarea styling */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Placeholder styling */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    transition: opacity 0.3s ease;
+}
+
+/* Hide placeholder on focus and when typing */
+.form-group input:focus::placeholder,
+.form-group textarea:focus::placeholder,
+.form-group input:not(:placeholder-shown)::placeholder,
+.form-group textarea:not(:placeholder-shown)::placeholder {
+    opacity: 0;
+}
+
+/* Focus states */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #60A5FA;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+    outline: none;
+}

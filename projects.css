@@ -1,0 +1,276 @@
+/* Project Cards Container */
+.projects-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Project Card */
+.project-card {
+    display: flex;
+    gap: 0;
+    min-height: 550px;
+    position: relative;
+    margin-bottom: 4rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+    will-change: transform;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Project Content */
+.project-content {
+    width: 40%;
+    padding: 2rem;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.project-title {
+    font-family: 'Chillax', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, #60A5FA, #34D399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 100%;
+    background-position: 0%;
+    transition: background-position 0.4s ease;
+}
+
+.project-description {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+}
+
+/* Tech Stack Tags */
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.tech-tag {
+    padding: 0.5rem 1rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 9999px;
+    color: #60A5FA;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+}
+
+/* GitHub Link */
+.github-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    font-family: 'Satoshi', sans-serif;
+    padding: 0.75rem 1.5rem;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 8px;
+    width: fit-content;
+    margin-top: auto;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.github-link:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Canvas Container */
+.project-image-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 60%;
+    height: 100%;
+    min-height: 550px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    transform-origin: center;
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    perspective: 1000px;
+}
+
+.project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    backface-visibility: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .project-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .project-content {
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .project-image-container {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        min-height: auto;
+        padding: 1rem;
+    }
+
+    .project-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .projects-container {
+        padding: 2rem 1rem;
+    }
+
+    .project-card {
+        margin-bottom: 4rem;
+    }
+
+    .project-image-container {
+        min-height: 300px;
+    }
+
+    .project-title {
+        font-size: 1.75rem;
+    }
+
+    .project-description {
+        font-size: 1rem;
+    }
+
+    .project-card {
+        flex-direction: column;
+    }
+
+    .project-content,
+    .project-image-container {
+        width: 100%;
+    }
+}
+
+/* Animation Classes */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-up.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hover Effects */
+.project-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(96, 165, 250, 0.1), rgba(52, 211, 153, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.project-card:hover::after {
+    opacity: 1;
+}
+
+/* Enhanced glow effect */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle,
+        rgba(96, 165, 250, 0.1) 0%,
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+.project-card:hover::before {
+    opacity: 1;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.15) 0%,
+        transparent 70%
+    );
+}
+
+/* Enhanced image container */
+.project-image-container {
+    /* ... existing styles ... */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    perspective: 1000px;
+}
+
+.project-image {
+    /* ... existing styles ... */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    backface-visibility: hidden;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100;
+    filter: blur(1px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+#bgCanvas {
+    pointer-events: none;
+    opacity: 0.3;
+    filter: blur(1px);
+}
+  

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script type="importmap">
+  {
+      "imports": {
+          "three": "./node_modules/three/build/three.module.js",
+          "three/examples/jsm/controls/OrbitControls": "./node_modules/three/examples/jsm/controls/OrbitControls.js",
+          "three/examples/jsm/loaders/GLTFLoader": "./node_modules/three/examples/jsm/loaders/GLTFLoader.js",
+          "three/examples/jsm/loaders/RGBELoader": "./node_modules/three/examples/jsm/loaders/RGBELoader.js"
+      }
+  }
+  </script>
+  <script type="module" src="main.js"></script>
+  <style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fadeIn {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .animation-delay-200 {
+        animation-delay: 0.2s;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-text {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .delay-300 {
+        animation-delay: 0.3s;
+    }
+
+    .delay-600 {
+        animation-delay: 0.6s;
+    }
+
+    .know-more-btn {
+        position: relative;
+        padding: 12px 24px;
+        background: linear-gradient(to right, #9333EA, #7928CA);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 15px rgba(147, 51, 234, 0.2);
+        width: fit-content;
+        white-space: nowrap;
+    }
+
+    .know-more-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(147, 51, 234, 0.3);
+    }
+
+    .know-more-btn:active {
+        transform: translateY(0);
+    }
+
+    .know-more-btn .arrow {
+        display: inline-block;
+        width: 18px;
+        height: 2px;
+        background-color: white;
+        position: relative;
+        transition: width 0.3s ease;
+    }
+
+    .know-more-btn .arrow::after {
+        content: '';
+        position: absolute;
+        right: -2px;
+        top: -4px;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid white;
+        border-bottom: 2px solid white;
+        transform: rotate(-45deg);
+    }
+
+    .know-more-btn:hover .arrow {
+        width: 24px;
+    }
+
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+    }
+
+    .helicopter-container {
+        width: 100%;
+        height: 200px;
+        position: relative;
+    }
+
+    .helicopter-model {
+        position: absolute;
+        left: -100px; /* Start off-screen */
+        transform: translateY(-50%);
+        transition: left 3s linear;
+    }
+
+    .loading-bar-container {
+        width: 300px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        margin: 20px 0;
+        overflow: hidden;
+    }
+
+    .loading-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(to right, #9333EA, #7928CA);
+        border-radius: 2px;
+        transition: width 0.3s ease;
+    }
+
+    .loading-text {
+        color: white;
+        font-size: 24px;
+        font-family: 'Monument Extended', sans-serif;
+        letter-spacing: 2px;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .loading-percent {
+        font-size: 18px;
+        color: #9333EA;
+        font-weight: bold;
+    }
+
+    .loading-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(to right, #9333EA, #7928CA);
+        border-radius: 2px;
+        transition: width 0.3s ease-out; /* Smoother transition */
+    }
+
+    /* Remove the old loader styles */
+    .loader, .loader-spinner, .loader-text {
+        display: none;
+    }
+  </style>
+</head>
+
+  <body class="overflow-x-hidden bg-black home-page">
+    <div class="w-full text-white min-h-screen">
+
+      
+      <div class="fixed inset-0 w-full h-screen">
+        <div id="loader" class="loading-screen">
+            <div class="helicopter-container">
+                <div class="helicopter-model">
+                    <!-- 3D helicopter model will be inserted here via JavaScript -->
+                </div>
+            </div>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <div class="loading-text">
+                TAKING YOU TO THE HEIGHT
+                <span class="loading-percent">0%</span>
+            </div>
+        </div>
+        <canvas id="canvas" class="w-full h-full"></canvas>
+        <div class="absolute md:top-[41%] md:left-[10%] md:-translate-y-1/2 z-[2]
+                    top-[2%] left-1/2 -translate-x-1/2 md:translate-x-0 text-center md:text-left">
+          <div class="flex items-center gap-3 md:flex-row flex-col">
+            <h1 class="text-4xl md:text-5xl text-black font-bold font-['Monument_Extended'] opacity-0 animate-text" id="hi">
+              Hi, I'm
+            </h1>
+            <h1 class="text-4xl md:text-5xl text-purple-900 font-bold font-['Monument_Extended'] opacity-0 animate-text delay-[300ms]" id="name">
+              Swayam
+            </h1>
+          </div>
+          <p class="text-xl md:text-2xl text-black mt-4 opacity-0 animate-text delay-[600ms] px-4 md:px-0" id="description">
+            Full-stack developer specializing in 3D visualization<br>
+            & interactive web experiences
+          </p>
+        </div>
+        <div class="absolute top-[40%] md:top-[55%] md:left-[10%] bottom-[15%] left-1/2 -translate-x-1/2 md:translate-x-0 z-[2]">
+          <a href="/about" class="know-more-btn opacity-0 animate-text delay-[900ms]">
+            Know More
+            <span class="arrow"></span>
+          </a>
+        </div>
+      </div>
+      
+      <script type="module" src="main.js"></script>
+    </div>
+</body>
+</html>

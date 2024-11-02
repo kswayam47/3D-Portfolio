@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About me</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="about.css">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/monument-extended">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,700,500&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=chillax@600,700,400&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+    </script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "./node_modules/three/build/three.module.js"
+        }
+    }
+    </script>
+  </head>
+  <body class="overflow-x-hidden bg-gradient-to-b from-black via-[#001a00] to-black">
+    <div class="overflow-y-scroll w-full font-['Helvetica_Now_Display']">
+      
+      
+      <nav class="sticky top-0 bg-black/30 backdrop-blur-md z-50 w-full border-b border-white/10 transition-all duration-300">
+          <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 px-6 md:px-32 py-4">
+              <h3 class="text-white md:text-2xl text-xl font-bold tracking-tight font-['Monument_Extended'] hover:text-blue-500 transition-colors">
+                  <a href="/about" class="relative group">
+                      About Me
+                      <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
+                  </a>
+              </h3>
+              <div class="flex items-center gap-8 md:gap-12">
+                  <a href="/" class="text-white hover:text-blue-500 transition-colors relative group font-['Satoshi'] text-lg">
+                      Home
+                      <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
+                  </a>
+                  <a href="/skills" class="text-white hover:text-blue-500 transition-colors relative group font-['Satoshi'] text-lg">
+                      Skills
+                      <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
+                  </a>
+                  <a href="/projects" class="text-white hover:text-blue-500 transition-colors relative group font-['Satoshi'] text-lg">
+                      Projects
+                      <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
+                  </a>
+              </div>
+          </div>
+      </nav>
+      
+        <div id="mobileMenu" class="fixed top-0 right-0 w-[80%] h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-[999]">
+            <div class="p-6">
+              <button id="closeBtn" class="absolute top-8 right-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <div class="mt-16 space-y-6">
+                <h3><a href="#" class="text-black font-medium block py-2 hover:text-gray-300 transition-colors">Home</a></h3>
+                <h3><a href="#" class="text-black font-medium block py-2 hover:text-gray-300 transition-colors">Skills</a></h3>
+                <h3><a href="#" class="text-black font-medium block py-2 hover:text-gray-300 transition-colors">Projects</a></h3>
+                <button class="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors w-full">Play Freely</button>
+              </div>
+            </div>
+          </div>
+    
+          <!-- New Introduction Section -->
+          <div class="intro-section py-20 px-6 md:px-32">
+              <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+                  <div class="md:w-1/2">
+                      <img src="/assets/about.jpg" alt="Profile" class="rounded-2xl shadow-lg w-full border-gradient">
+                  </div>
+                  <div class="md:w-1/2 text-white">
+                      <h2 class="text-4xl md:text-5xl font-bold mb-6 font-['Chillax']">Hello, I'm Swayam Mukesh Kewlani</h2>
+                      <p class="text-lg md:text-xl font-['Satoshi'] leading-relaxed mb-8">
+                          My journey into tech began with a simple curiosity about how websites work, and it has evolved into a deep passion for creating digital experiences that leave people amazed. As someone who believes in the perfect blend of functionality and aesthetics, I've dedicated myself to mastering both front-end artistry and back-end architecture. Whether it's bringing 3D elements to life with Three.js, crafting responsive interfaces, or optimizing database performance, I find joy in every aspect of development. Beyond coding, I'm an avid learner who believes in the power of community and collaboration. I'm currently working on projects that push the boundaries of web interactivity while pursuing my B.E, and I'm always excited about connecting with fellow developers and potential collaborators who share my vision for innovative web solutions.
+                      </p>
+                      <div class="flex flex-wrap gap-4 mb-8">
+                          <a href="/projects" class="intro-button">
+                              <span>Projects</span>
+                              <div class="button-glow"></div>
+                          </a>
+                          <a href="/skills" class="intro-button">
+                              <span>Skills</span>
+                              <div class="button-glow"></div>
+                          </a>
+                          <a href="/contact" class="intro-button">
+                              <span>Contact Me</span>
+                              <div class="button-glow"></div>
+                          </a>
+                          <a href="/assets/resume.pdf" download class="intro-button">
+                              <span>Download Resume</span>
+                              <div class="button-glow"></div>
+                          </a>
+                      </div>
+
+                      <!-- Updated Social Links with right alignment -->
+                      <div class="flex items-center justify-end gap-6 mt-4 pr-8">
+                          <a href="https://www.linkedin.com/in/kswayam47" target="_blank" class="social-icon-link group">
+                              <svg class="w-6 h-6 text-white/70 group-hover:text-blue-500 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                              </svg>
+                          </a>
+                          <a href="https://github.com/kswayam47" target="_blank" class="social-icon-link group">
+                              <svg class="w-6 h-6 text-white/70 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                              </svg>
+                          </a>
+                          <a href="https://www.instagram.com/k_.swayam.47/" target="_blank" class="social-icon-link group">
+                              <svg class="w-6 h-6 text-white/70 group-hover:text-pink-500 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                              </svg>
+                          </a>
+                      </div>
+                  </div>
+              </div> 
+          </div>
+
+          <!-- Journey Section -->
+          <div class="journey-section py-20 px-4 md:px-32">
+              <h2 class="text-4xl font-bold mb-24 font-['Chillax'] text-center text-white">My Journey</h2>
+              
+              <div class="journey-timeline relative">
+                  <!-- Timeline Center Line - moved to left on mobile -->
+                  <div class="absolute md:left-1/2 left-4 transform md:-translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-green-500"></div>
+                  
+                  <!-- Journey Items -->
+                  <div class="journey-item relative mb-32">
+                      <!-- Year Label -->
+                      <div class="year-label absolute -top-16 right-8  md:right-[55%] bg-black/80 px-4 md:px-6 py-2 md:py-3 rounded-full border-2 border-green-500 text-xl md:text-2xl text-white font-['Chillax'] glow-text backdrop-blur-sm">2024</div>
+                      
+                      <!-- Journey dot - Added this for the first card -->
+                      <div class="journey-dot absolute left-4 md:left-1/2 top-8 transform md:-translate-x-1/2 w-4 h-4 bg-green-500 rounded-full border-4 border-black shadow-[0_0_15px_rgba(0,255,0,0.3)]"></div>
+                      
+                      <!-- Content -->
+                      <div class="journey-card ml-8 md:ml-auto w-[calc(100%-40px)] md:w-[45%]">
+                          <div class="card-media">
+                              <img src="/assets/j2.jpg" alt="2024 Journey" class="w-full h-56 object-cover">
+                              <div class="card-overlay"></div>
+                          </div>
+                          <div class="card-content">
+                              <span class="tech-tag">MERN Stack</span>
+                              <span class="tech-tag">Three.js</span>
+                              <span class="tech-tag">WebGL</span>
+                              
+                              <h4 class="card-title">Mastering MERN Stack</h4>
+                              <p class="card-description">Dove deep into the MERN stack, building full-stack applications. Explored Three.js and began creating immersive 3D web experiences.</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="journey-item relative mb-32">
+                      <!-- Year Label - adjusted for mobile -->
+                      <div class="year-label absolute -top-16 left-8 md:left-[55%] bg-black/80 px-4 md:px-6 py-2 md:py-3 rounded-full border-2 border-blue-500 text-xl md:text-2xl font-['Chillax'] glow-text backdrop-blur-sm text-white">2023</div>
+                      
+                      <!-- Content - always on right for mobile -->
+                      <div class="journey-card ml-8 md:mr-auto md:ml-0 w-[calc(100%-40px)] md:w-[45%]">
+                          <div class="card-media">
+                              <img src="/assets/j1.jpg" alt="2023 Journey" class="w-full h-56 object-cover">
+                              <div class="card-overlay"></div>
+                          </div>
+                          <div class="card-content">
+                              <span class="tech-tag">HTML</span>
+                              <span class="tech-tag">CSS</span>
+                              <span class="tech-tag">JavaScript</span>
+                              
+                              <h4 class="card-title">Started Web Development</h4>
+                              <p class="card-description">Began my journey into web development, learning HTML, CSS, and JavaScript. Created my first responsive websites and discovered my passion for frontend development.</p>
+                          </div>
+                      </div>
+                      <!-- Journey dot - adjusted for mobile -->
+                      <div class="journey-dot absolute left-4 md:left-1/2 top-8 transform md:-translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-black"></div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- My Approach Section -->
+          <div class="approach-section py-20 px-6 md:px-32">
+              <div class="max-w-7xl mx-auto">
+                  <h2 class="text-4xl font-bold mb-12 font-['Chillax'] text-white text-center">My Approach</h2>
+                  <div class="grid md:grid-cols-3 gap-8">
+                      <!-- Approach Card 1 -->
+                      <div class="approach-card bg-black/40 p-8 rounded-xl border border-blue-500/50 backdrop-blur-sm hover:border-blue-500 transition-all duration-300 group">
+                          <div class="text-blue-500 mb-6">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                              </svg>
+                          </div>
+                          <h3 class="text-2xl font-bold mb-4 text-white font-['Chillax']">Research & Planning</h3>
+                          <p class="text-gray-300 font-['Satoshi'] leading-relaxed">
+                              I begin each project with thorough research and strategic planning. Understanding the core requirements, target audience, and technical constraints helps me create solutions that are both innovative and practical.
+                          </p>
+                      </div>
+
+                      <!-- Approach Card 2 -->
+                      <div class="approach-card bg-black/40 p-8 rounded-xl border border-blue-500/50 backdrop-blur-sm hover:border-blue-500 transition-all duration-300 group">
+                          <div class="text-blue-500 mb-6">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                              </svg>
+                          </div>
+                          <h3 class="text-2xl font-bold mb-4 text-white font-['Chillax']">Clean & Efficient Code</h3>
+                          <p class="text-gray-300 font-['Satoshi'] leading-relaxed">
+                              I prioritize writing clean, maintainable, and efficient code. By following best practices and staying updated with modern development patterns, I ensure scalable solutions that stand the test of time.
+                          </p>
+                      </div>
+
+                      <!-- Approach Card 3 -->
+                      <div class="approach-card bg-black/40 p-8 rounded-xl border border-blue-500/50 backdrop-blur-sm hover:border-blue-500 transition-all duration-300 group">
+                          <div class="text-blue-500 mb-6">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                              </svg>
+                          </div>
+                          <h3 class="text-2xl font-bold mb-4 text-white font-['Chillax']">User-Centric Design</h3>
+                          <p class="text-gray-300 font-['Satoshi'] leading-relaxed">
+                              Every line of code I write focuses on enhancing user experience. I blend aesthetic appeal with functional design, creating interfaces that are both beautiful and intuitive to navigate.
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Existing Landing Section (moved to the end) -->
+          <div class="landing w-full h-[100vh] overflow-x-hidden">
+            <div class="w-full h-screen sticky top-0 left-0">
+                <!-- Content container - simplified -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6">
+                    <div class="relative">
+                        <h1 class="opacity-100 text-4xl md:text-6xl font-bold tracking-tight text-white whitespace-normal md:whitespace-nowrap font-['Chillax'] text-center">
+                            Crafting Digital Magic
+                        </h1>
+                        <p class="opacity-0 text-center tracking-tight leading-loose text-white text-lg md:text-2xl font-['Satoshi'] max-w-3xl mx-auto font-bold mt-1 [text-shadow:_0_1px_15px_rgb(255_255_255_/_60%)] z-[4]">
+                          "Beyond the screen lies a universe of endless possibilities. A realm where shadows dance with light, where motion defies gravity, and where imagination knows no bounds. Step into a world where every scroll reveals a new mystery, every click unlocks a hidden dimension, and every moment brings you closer to digital enlightenment."
+                        </p>
+                    </div>
+                </div>
+                
+                <canvas id="about-canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+            </div>
+          </div>
+
+
+              
+            
+        </div>
+     
+
+    <script type="module" src="about.js"></script>
+  </body>
+</html> 
+        <!-- Footer -->

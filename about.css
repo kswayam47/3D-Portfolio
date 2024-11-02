@@ -1,0 +1,583 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+   
+}
+
+/* Page specific styles */
+.page-about {
+    
+    
+    overflow-y: scroll !important;
+  
+}
+
+
+/* Ensure nav stays on top */
+
+/* Scrollbar styles */
+.page-about::-webkit-scrollbar {
+    width: 12px !important;
+    display: block !important;
+}
+
+.page-about::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border-radius: 6px !important;
+}
+
+.page-about::-webkit-scrollbar-thumb {
+    background-color: rgba(147, 51, 234, 0.7) !important;
+    border-radius: 6px !important;
+    border: 2px solid transparent !important;
+    background-clip: content-box !important;
+    min-height: 40px !important;
+}
+
+/* Firefox scrollbar */
+.page-about {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(147, 51, 234, 0.7) transparent !important;
+}
+
+
+/* White overlay */
+
+/* Add these styles */
+#profile-image {
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: all 1s ease-in-out;
+}
+
+.gradient-border {
+    position: relative;
+}
+
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(90deg, 
+        rgb(0, 255, 0) 0%,
+        rgb(255, 196, 0) 100%
+    );
+    border-radius: 24px;
+    z-index: -1;
+}
+
+.inner-container {
+    background: black;
+}
+
+#profile-image img {
+    background: black;
+    object-fit: cover;
+}
+
+#content-container {
+    transition: all 1s ease-in-out;
+}
+
+/* Add these responsive styles */
+@media (max-width: 768px) {
+    #profile-image {
+        opacity: 1;
+        position: relative;
+        transform: translateX(-50%);
+        margin-bottom: 2rem;
+    }
+
+    #content-container {
+        position: relative;
+        transform: translateX(-50%);
+        margin-top: 2rem;
+    }
+
+    .landing {
+        height: auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #about-canvas {
+        position: relative;
+        height: 60vh !important;
+        margin-top: 2rem;
+    }
+}
+
+/* New section styles */
+.experience-card {
+    transition: transform 0.3s ease;
+}
+
+.experience-card:hover {
+    transform: translateY(-5px);
+}
+
+.approach-card {
+    transition: all 0.3s ease;
+}
+
+.approach-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .intro-section, .work-experience, .approach-section {
+        padding: 3rem 1rem;
+    }
+}
+
+/* Add these styles at the top of your CSS file */
+body {
+    background: linear-gradient(180deg, 
+        #000000 0%,
+        #001a00 50%,
+        #000000 100%
+    );
+    background-attachment: fixed; /* This prevents gradient from repeating */
+    min-height: 100vh;
+}
+
+/* Add overlay for sections to enhance content visibility */
+.intro-section,
+.journey-section,
+.approach-section {
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0, 255, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 255, 0, 0.1);
+}
+
+/* Update card backgrounds for better contrast */
+.journey-content {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 255, 0, 0.2);
+}
+
+.approach-card {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+/* Add subtle glow effects */
+.journey-dot {
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.approach-card:hover {
+    border-color: rgba(0, 255, 0, 0.5);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.15);
+}
+
+/* Update scrollbar colors to match theme */
+.page-about::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 255, 0, 0.3) !important;
+}
+
+.page-about {
+    scrollbar-color: rgba(0, 255, 0, 0.3) transparent !important;
+}
+
+/* Add smooth transitions */
+.intro-section,
+.journey-section,
+.approach-section {
+    transition: background-color 0.3s ease;
+}
+
+/* Optional: Add subtle animation to the gradient */
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    background-size: 200% 200%;
+    animation: gradientFlow 15s ease infinite;
+}
+
+/* Journey Section Styles */
+.journey-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.journey-timeline {
+    position: relative;
+}
+
+.journey-timeline::before {
+    content: '';
+    position: absolute;
+    left: 16px; /* Default for mobile */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #60A5FA, #34D399);
+    opacity: 0.3;
+}
+
+.journey-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    overflow: hidden;
+    transform: translateY(50px);
+    opacity: 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.journey-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+.card-media {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-media img {
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.journey-card:hover .card-media img {
+    transform: scale(1.05);
+}
+
+.card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.card-content {
+    padding: 2rem;
+    color: white;
+}
+
+.tech-tag {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    margin: 0 0.5rem 0.5rem 0;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    color: #60A5FA;
+    font-family: 'Satoshi', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
+.card-title {
+    font-family: 'Chillax', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 1rem 0;
+    background: linear-gradient(45deg, #60A5FA, #34D399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.card-description {
+    font-family: 'Satoshi', sans-serif;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Year Label Styles */
+.year-label {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: bold;
+    box-shadow: 0 0 30px rgba(52, 211, 153, 0.2);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 10;
+}
+
+.year-label.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Timeline Dot Styles */
+.journey-dot {
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    display: block; /* Ensure visibility on both screens */
+}
+
+/* Timeline Line Styles */
+.journey-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #60A5FA, #34D399);
+    transform: translateX(-50%);
+    opacity: 0.3;
+}
+
+/* Animation for cards */
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.journey-card.active {
+    animation: cardAppear 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* Add these mobile-specific styles */
+@media (max-width: 768px) {
+    .journey-timeline::before {
+        left: 16px; /* Aligns with the dots */
+        transform: none;
+    }
+
+    .journey-card {
+        margin-top: 2rem;
+    }
+
+    .year-label {
+        left: 32px !important; /* Force left alignment on mobile */
+        transform: translateX(0) !important;
+    }
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+    .journey-timeline::before {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* Add these styles to adjust the paragraph position */
+.landing p {
+    transform: translateY(-50px); /* Move text up by 50px */
+    margin-top: -20px; /* Additional negative margin for fine-tuning */
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .landing p {
+        transform: translateY(-30px); /* Slightly less movement on mobile */
+        margin-top: -10px; /* Smaller negative margin for mobile */
+    }
+}
+
+/* Updated styles for the image border effect */
+.border-gradient {
+    position: relative;
+    padding: 4px;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 255, 0, 0.6),
+        rgba(59, 130, 246, 0.6),
+        rgba(0, 255, 0, 0.6)
+    );
+    border-radius: 1.5rem;
+    transition: all 0.5s ease;
+    background-size: 200% 200%;
+    animation: gradientBorder 3s ease infinite;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 0, 0.2),
+        inset 0 0 20px rgba(0, 255, 0, 0.1);
+}
+
+.border-gradient::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 255, 0, 0.3),
+        rgba(59, 130, 246, 0.3),
+        rgba(0, 255, 0, 0.3)
+    );
+    border-radius: 1.6rem;
+    z-index: -1;
+    filter: blur(10px);
+    animation: gradientBorder 3s ease infinite;
+    background-size: 200% 200%;
+}
+
+.border-gradient:hover {
+    transform: scale(1.02);
+    background: linear-gradient(
+        45deg,
+        rgba(0, 255, 0, 0.8),
+        rgba(59, 130, 246, 0.8),
+        rgba(0, 255, 0, 0.8)
+    );
+    box-shadow: 
+        0 0 30px rgba(0, 255, 0, 0.4),
+        inset 0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+.border-gradient img {
+    border-radius: 1.3rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.border-gradient:hover img {
+    transform: scale(1.01);
+}
+
+@keyframes gradientBorder {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Styles for the buttons */
+.intro-button {
+    position: relative;
+    padding: 0.75rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.intro-button:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-2px);
+}
+
+.button-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at center,
+        rgba(59, 130, 246, 0.4) 0%,
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.intro-button:hover .button-glow {
+    opacity: 1;
+}
+
+/* Add animation for buttons */
+@keyframes buttonPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+}
+
+.intro-button:hover {
+    animation: buttonPulse 1.5s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .intro-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Social icon link styles */
+.social-icon-link {
+    transition: all 0.3s ease;
+}
+
+.social-icon-link:hover {
+    transform: translateY(-3px);
+}
+
+.social-icon-link svg {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.1));
+}
+
+.social-icon-link:hover svg {
+    filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.3));
+}
+
+/* Adjust spacing for mobile */
+@media (max-width: 768px) {
+    .intro-section .flex-wrap {
+        justify-content: center;
+    }
+    
+    /* Center social links on mobile */
+    .intro-section .social-links {
+        justify-content: center;
+        padding-right: 0; /* Remove right padding on mobile */
+    }
+}
