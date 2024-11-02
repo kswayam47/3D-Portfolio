@@ -34,11 +34,10 @@ function initializeScrollAnimations() {
         const techStack = card.querySelector('.tech-stack');
         const githubLink = card.querySelector('.github-link');
 
-        // Hover animations
-        card.addEventListener('mouseenter', () => {
+        // Function to play hover animation
+        const playHoverAnimation = () => {
             const tl = gsap.timeline();
             
-            // Dramatic card lift and glow effect
             tl.to(card, {
                 y: -15,
                 scale: 1.02,
@@ -46,41 +45,34 @@ function initializeScrollAnimations() {
                 duration: 0.4,
                 ease: 'power2.out'
             })
-            
-            // Image zoom only (removed rotation)
             .to(image, {
                 scale: 1.05,
                 duration: 0.5,
                 ease: 'power2.out'
             }, '-=0.4')
-            
-            // Content slide and highlight
             .to(content, {
                 x: index % 2 === 0 ? 10 : -10,
                 duration: 0.4,
                 ease: 'power2.out'
             }, '-=0.4')
-            
-            // Tech stack tags pop effect
             .to(techStack.children, {
                 scale: 1.1,
                 stagger: 0.05,
                 duration: 0.2,
                 ease: 'back.out(1.7)'
             }, '-=0.3')
-            
-            // Title gradient animation
             .to(title, {
                 backgroundSize: '200%',
                 backgroundPosition: '100%',
                 duration: 0.4
             }, '-=0.4');
 
-            // Floating particles effect (optional)
             createParticles(card);
-        });
+            return tl;
+        };
 
-        card.addEventListener('mouseleave', () => {
+        // Function to reverse hover animation
+        const reverseHoverAnimation = () => {
             gsap.to(card, {
                 y: 0,
                 scale: 1,
@@ -111,7 +103,40 @@ function initializeScrollAnimations() {
                 backgroundPosition: '0%',
                 duration: 0.4
             });
-        });
+        };
+
+        // Check if it's a mobile device
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        if (isMobile) {
+            // For mobile devices, create a continuous animation loop
+            const loopAnimation = () => {
+                const tl = gsap.timeline({
+                    repeat: -1,
+                    yoyo: true,
+                    repeatDelay: 1
+                });
+                
+                tl.add(playHoverAnimation());
+                
+                return tl;
+            };
+
+            // Start the loop animation when the card becomes visible
+            ScrollTrigger.create({
+                trigger: card,
+                start: 'top bottom',
+                end: 'bottom top',
+                onEnter: () => loopAnimation(),
+                onEnterBack: () => loopAnimation(),
+                onLeave: () => gsap.killTweensOf(card),
+                onLeaveBack: () => gsap.killTweensOf(card)
+            });
+        } else {
+            // For desktop, keep the hover events
+            card.addEventListener('mouseenter', playHoverAnimation);
+            card.addEventListener('mouseleave', reverseHoverAnimation);
+        }
     });
 }
 

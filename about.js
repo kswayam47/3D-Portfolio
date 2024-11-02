@@ -175,6 +175,9 @@ function initializeScrollAnimations() {
         const yearLabel = item.querySelector('.year-label');
         const dot = item.querySelector('.journey-dot');
 
+        // Add loading state
+        card.classList.add('journey-card-loading');
+
         // Create timeline with optimized settings
         const tl = gsap.timeline({
             scrollTrigger: {
@@ -182,12 +185,16 @@ function initializeScrollAnimations() {
                 start: "top center+=100",
                 end: "top center-=100",
                 toggleActions: "play none none reverse",
-                // Add these optimization settings
                 fastScrollEnd: true,
                 preventOverlaps: true,
-                anticipatePin: 1
+                anticipatePin: 1,
+                onEnter: () => {
+                    // Remove loading state when animation starts
+                    setTimeout(() => {
+                        card.classList.remove('journey-card-loading');
+                    }, 300); // Small delay to ensure smooth transition
+                }
             },
-            // Add default ease to timeline
             defaults: {
                 ease: "power2.out"
             }

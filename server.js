@@ -19,18 +19,16 @@ app.use(express.static(__dirname));
 
 // Create email transporter
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
     host: 'smtp.gmail.com',
     port: 587,
-    secure: false, // Use TLS
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        pass: process.env.EMAIL_PASS // This should be an App Password, not your regular Gmail password
     },
-    tls: {
-        // Do not fail on invalid certificates
-        rejectUnauthorized: false
-    }
+    requireTLS: true,
+    debug: true, // Enable debug logs
+    logger: true // Enable logger
 });
 
 // Verify the connection configuration

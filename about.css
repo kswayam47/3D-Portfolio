@@ -581,3 +581,74 @@ body {
         padding-right: 0; /* Remove right padding on mobile */
     }
 }
+
+/* Add these styles at the end of your CSS file */
+
+/* Mobile message styling */
+.landing .md\:hidden p {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeIn 0.8s ease-out;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Timeline Dot Styles - Updated for mobile */
+.journey-dot {
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .journey-dot {
+        left: 7.9px !important; /* Adjusted slightly more to the right */
+    }
+}
+
+/* Add loading state styles */
+.journey-card-loading {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    height: 400px; /* Approximate height of your cards */
+    position: relative;
+    overflow: hidden;
+}
+
+.journey-card-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    animation: loadingShimmer 1.5s infinite;
+}
+
+@keyframes loadingShimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}

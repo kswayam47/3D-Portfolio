@@ -232,21 +232,27 @@
               </div>
           </div>
 
-          <!-- Existing Landing Section (moved to the end) -->
+          <!-- Modified Landing Section -->
           <div class="landing w-full h-[100vh] overflow-x-hidden">
-            <div class="w-full h-screen sticky top-0 left-0">
-                <!-- Content container - simplified -->
+            <!-- Message for small screens -->
+            <div class="md:hidden w-full min-h-[50vh] flex items-center justify-center px-6 py-12">
+                <p class="text-center text-white font-['Satoshi'] text-lg leading-relaxed">
+                    Please open on a larger screen to experience the immersive 3D animation. The animation requires more screen space to be fully appreciated...
+                </p>
+            </div>
+
+            <!-- 3D animation for larger screens -->
+            <div class="hidden md:block w-full h-screen sticky top-0 left-0">
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6">
                     <div class="relative">
                         <h1 class="opacity-100 text-4xl md:text-6xl font-bold tracking-tight text-white whitespace-normal md:whitespace-nowrap font-['Chillax'] text-center">
                             Crafting Digital Magic
                         </h1>
                         <p class="opacity-0 text-center tracking-tight leading-loose text-white text-lg md:text-2xl font-['Satoshi'] max-w-3xl mx-auto font-bold mt-1 [text-shadow:_0_1px_15px_rgb(255_255_255_/_60%)] z-[4]">
-                          "Beyond the screen lies a universe of endless possibilities. A realm where shadows dance with light, where motion defies gravity, and where imagination knows no bounds. Step into a world where every scroll reveals a new mystery, every click unlocks a hidden dimension, and every moment brings you closer to digital enlightenment."
+                            "Beyond the screen lies a universe of endless possibilities. A realm where shadows dance with light, where motion defies gravity, and where imagination knows no bounds. Step into a world where every scroll reveals a new mystery, every click unlocks a hidden dimension, and every moment brings you closer to digital enlightenment."
                         </p>
                     </div>
                 </div>
-                
                 <canvas id="about-canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
             </div>
           </div>
