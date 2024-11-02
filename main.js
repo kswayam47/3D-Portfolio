@@ -98,9 +98,6 @@ function updateLoadingProgress(progress) {
     }
 }
 
-// Create separate controls for the model
-let modelControls = null;
-
 loader.load('./assets/scene3.glb', 
     // Success callback
     (gltf) => {
@@ -125,47 +122,22 @@ loader.load('./assets/scene3.glb',
         model.position.sub(center);
         
         function updateModelPosition() {
-            if (window.innerWidth < 768) {
-                model.position.set(9, -30, 1.84);
+            if (window.innerWidth < 768) { // md breakpoint
+                model.position.set(5, -15, 1.84);
                 const mobileScale = 20 / maxDimension;
                 model.scale.setScalar(mobileScale);
-                
-                // Setup mobile controls
-                if (!modelControls) {
-                    modelControls = new OrbitControls(camera, canvas);
-                    modelControls.enableDamping = true;
-                    modelControls.dampingFactor = 0.1;
-                    modelControls.rotateSpeed = 1.5;
-                    modelControls.enableZoom = false;
-                    modelControls.enablePan = false;
-                    
-                    // Lock vertical rotation
-                    modelControls.minPolarAngle = Math.PI / 2;
-                    modelControls.maxPolarAngle = Math.PI / 2;
-                    
-                    // Limit horizontal rotation
-                    modelControls.minAzimuthAngle = -Infinity;
-                    modelControls.maxAzimuthAngle = Infinity;
-                    
-                    // Set the target to the model's position
-                    modelControls.target.set(5, -15, 1.84);
-                }
-                modelControls.enabled = true;
             } else {
                 model.position.set(25, -6.2, 1.84);
                 const scale = 30 / maxDimension;
                 model.scale.setScalar(scale);
-                
-                // Disable controls on desktop
-                if (modelControls) {
-                    modelControls.enabled = false;
-                }
             }
         }
         
         scene.add(model);
         updateModelPosition();
         window.addEventListener('resize', updateModelPosition);
+        controls.target.set(0, 0, 0);
+        controls.update();
     },
     // Progress callback
     (progress) => {
@@ -186,9 +158,6 @@ loader.load('./assets/scene3.glb',
         }
     }
 );
-
-// Disable the original controls
-controls.enabled = false;
 
 // Add lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -228,13 +197,8 @@ function onWindowResize() {
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
-    
-    // Only update model controls if they exist and are enabled
-    if (modelControls && modelControls.enabled) {
-        modelControls.update();
-    }
-    
+    controls.update();
     renderer.render(scene, camera);
 }
-animate();
 
+animate();
