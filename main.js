@@ -134,8 +134,8 @@ loader.load('./assets/scene3.glb',
                 if (!modelControls) {
                     modelControls = new OrbitControls(camera, canvas);
                     modelControls.enableDamping = true;
-                    modelControls.dampingFactor = 0.2;
-                    modelControls.rotateSpeed = 0.2;
+                    modelControls.dampingFactor = 0.1;
+                    modelControls.rotateSpeed = 1.5;
                     modelControls.enableZoom = false;
                     modelControls.enablePan = false;
                     
