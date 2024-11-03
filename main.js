@@ -72,8 +72,8 @@ window.addEventListener("resize", function () {
     const model = scene.getObjectByProperty('type', 'Group'); // Get the loaded model
     if (model) {
         if (isMobile()) {
-            model.position.setY(-75);
-            model.scale.set(1, 1, 1); // Update scale on resize for mobile
+            model.position.setY(-50);
+            model.scale.set(0.8, 0.8, 0.8); // Update scale on resize for mobile
         } else {
             model.position.setY(-15);
             model.scale.set(2, 2, 2); // Update scale on resize for desktop
@@ -149,7 +149,7 @@ loader.load(
 
         // Set position and scale based on screen size
         if (isMobile()) {
-            model.position.set(-3.0, -45, -25.3);
+            model.position.set(-6, -45, -45.3);
             model.scale.set(1, 1, 1); // Smaller scale for mobile
         } else {
             model.position.set(-3.84, -15, -21.3);
@@ -158,7 +158,7 @@ loader.load(
         }
 
         if(isMobile()) {
-            camera.position.set(0, 2, 90);
+            camera.position.set(0, -20, 90);
         }
 
         // Set perfect rotation (y = 87 degrees)
