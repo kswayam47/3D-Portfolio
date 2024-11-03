@@ -119,6 +119,26 @@ function initializeScrollAnimations() {
                 
                 tl.add(playHoverAnimation());
                 
+                // Add continuous particle animation
+                const particleInterval = setInterval(() => {
+                    createParticles(card);
+                }, 2000); // Create particles every 2 seconds (1s animation + 1s break)
+
+                // Cleanup interval when card is out of view
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    onLeave: () => {
+                        clearInterval(particleInterval);
+                        gsap.killTweensOf(card);
+                    },
+                    onLeaveBack: () => {
+                        clearInterval(particleInterval);
+                        gsap.killTweensOf(card);
+                    }
+                });
+
                 return tl;
             };
 
@@ -128,9 +148,7 @@ function initializeScrollAnimations() {
                 start: 'top bottom',
                 end: 'bottom top',
                 onEnter: () => loopAnimation(),
-                onEnterBack: () => loopAnimation(),
-                onLeave: () => gsap.killTweensOf(card),
-                onLeaveBack: () => gsap.killTweensOf(card)
+                onEnterBack: () => loopAnimation()
             });
         } else {
             // For desktop, keep the hover events

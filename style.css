@@ -506,4 +506,64 @@
 
 /* Update container styles to allow scrolling on about page */
 
+/* Add these new mystical theme styles */
+.text-shadow-mystical {
+    text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.7),
+                 0 0 30px rgba(147, 51, 234, 0.2),
+                 0 0 10px rgba(139, 92, 246, 0.2);
+}
+
+.mystical-glow {
+    background: linear-gradient(45deg, #c4b5fd, #8b5cf6, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: mysticalGradient 8s ease infinite;
+    filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.3));
+}
+
+.mystical-text {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes mysticalGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Enhanced hover effects */
+#hi:hover {
+    transform: translateX(3px);
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 2px 2px 25px rgba(139, 92, 246, 0.3);
+}
+
+#name:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.4));
+}
+
+#description:hover {
+    transform: translateX(2px);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    #hi, #name {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    #description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        max-width: 280px;
+    }
+}
+
 /*

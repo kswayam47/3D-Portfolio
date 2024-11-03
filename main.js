@@ -1,83 +1,13 @@
-// Update import paths
-import * as THREE from './node_modules/three/build/three.module.js';
-import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from './node_modules/three/examples/jsm/loaders/GLTFLoader.js';
-import { RGBELoader } from './node_modules/three/examples/jsm/loaders/RGBELoader.js';
-
-// Rest of the code remains the same
+import * as THREE from "./node_modules/three/build/three.module.js";
+import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "./node_modules/three/examples/jsm/loaders/GLTFLoader.js";
+import { RGBELoader } from "./node_modules/three/examples/jsm/loaders/RGBELoader.js";
 
 // Scene setup
-const canvas = document.querySelector('#canvas');
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ 
-    canvas: canvas,
-    antialias: true,
-    alpha: true 
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1;
-renderer.outputEncoding = THREE.sRGBEncoding;
+const canvas = document.querySelector("#canvas");
 
-// Initial camera position
-camera.position.set(0, 0, 51.2);
-camera.rotation.set(-0.7853, 0, 0);
-camera.fov = 45;
-camera.updateProjectionMatrix();
-
-// Orbit controls
-const controls = new OrbitControls(camera, canvas);
-controls.enabled = false;
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.rotateSpeed = 0.5;
-controls.zoomSpeed = 0.5;
-controls.maxDistance = 180;
-controls.minDistance = 10;
-controls.enablePan = false;
-controls.enableZoom = false;
-controls.enableRotate = false;
-controls.autoRotate = false;
-controls.autoRotateSpeed = 0.5;
-controls.enableSmoothing = true;
-controls.smoothTime = 1.0;
-
-// Load HDRI environment
-const rgbeLoader = new RGBELoader();
-rgbeLoader.load('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/qwantani_sunrise_1k.hdr', (texture) => {
-    texture.mapping = THREE.EquirectangularReflectionMapping;
-    scene.environment = texture;
-});
-
-// Create sphere
-const textureLoader = new THREE.TextureLoader();
-const sphereGeometry = new THREE.SphereGeometry(200, 64, 64);
-const sphereTexture = textureLoader.load('./assets/sky2.jpg');
-sphereTexture.wrapS = THREE.RepeatWrapping;
-sphereTexture.wrapT = THREE.RepeatWrapping;
-sphereTexture.repeat.set(4, 2);
-const sphereMaterial = new THREE.MeshPhysicalMaterial({
-    transparent: true,
-    opacity: 1,
-    roughness: 0.1,
-    transmission: 0.2,
-    thickness: 0.5,
-    clearcoat: 0.3,
-    clearcoatRoughness: 0.1,
-    map: sphereTexture,
-    envMapIntensity: 1.5,
-    side: THREE.BackSide,
-    metalness: 0.1,
-});
-const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-scene.add(sphere);
-
-// Load 3D Model
-const loader = new GLTFLoader();
-let loadedModel;
-
+// Loading functionality
 function startTextAnimation() {
     const hiElement = document.querySelector("#hi");
     const nameElement = document.querySelector("#name");
@@ -98,56 +28,165 @@ function updateLoadingProgress(progress) {
     }
 }
 
-loader.load('./assets/scene3.glb', 
-    // Success callback
-    (gltf) => {
+// Add this new function to check if it's a mobile device
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// Modify the background texture setup
+const textureLoader = new THREE.TextureLoader();
+function loadBackground() {
+    const texturePath = isMobile() 
+        ? './assets/env.jpg'  // Mobile background
+        : './assets/mists.png';     // Desktop background
+
+    textureLoader.load(
+        texturePath,
+        function (texture) {
+            texture.minFilter = THREE.LinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.format = THREE.RGBAFormat;
+            texture.needsUpdate = true;
+            scene.background = texture;
+        },
+        undefined,
+        function (error) {
+            console.error('Error loading background texture:', error);
+        }
+    );
+}
+
+// Call loadBackground initially
+loadBackground();
+
+// Update the resize event listener to handle background changes
+window.addEventListener("resize", function () {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    
+    // Reload background when screen size changes between mobile and desktop
+    loadBackground();
+    
+    // Update model position when screen size changes
+    const model = scene.getObjectByProperty('type', 'Group'); // Get the loaded model
+    if (model) {
+        if (isMobile()) {
+            model.position.setY(-75);
+            model.scale.set(1, 1, 1); // Update scale on resize for mobile
+        } else {
+            model.position.setY(-15);
+            model.scale.set(2, 2, 2); // Update scale on resize for desktop
+        }
+    }
+});
+
+// HDRI loader
+const rgbeLoader = new RGBELoader();
+rgbeLoader.load(
+    'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dark_forest_1k.hdr',
+    function (texture) {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        scene.environment = texture;
+    }
+);
+
+// Renderer setup
+const renderer = new THREE.WebGLRenderer({ 
+    canvas, 
+    antialias: true,
+});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.5;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+// Camera setup with perfect position
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 2, 90);
+
+// Controls
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+directionalLight.position.set(5, 5, 5);
+scene.add(directionalLight);
+
+const pointLight1 = new THREE.PointLight(0x00ff00, 0.2);
+pointLight1.position.set(5, 5, 5);
+scene.add(pointLight1);
+
+// Animation setup
+const clock = new THREE.Clock();
+let mixer;
+
+// Load the model
+const loader = new GLTFLoader();
+loader.load(
+    './assets/mobile_home.glb',
+    function (gltf) {
+        // Hide loader when model is ready
         const loaderElement = document.getElementById('loader');
         loaderElement.style.opacity = "0";
         setTimeout(() => {
             loaderElement.style.display = 'none';
             startTextAnimation();
         }, 500);
+
+        const model = gltf.scene;
         
-        loadedModel = gltf.scene;
-        const model = loadedModel;
-        
+        // Center the model
         const box = new THREE.Box3().setFromObject(model);
-        const size = box.getSize(new THREE.Vector3());
-        const maxDimension = Math.max(size.x, size.y, size.z);
-        const scale = 30 / maxDimension;
-        model.scale.setScalar(scale);
-        
-        box.setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         model.position.sub(center);
-        
-        function updateModelPosition() {
-            if (window.innerWidth < 768) { // md breakpoint
-                model.position.set(5, -15, 1.84);
-                const mobileScale = 20 / maxDimension;
-                model.scale.setScalar(mobileScale);
-            } else {
-                model.position.set(25, -6.2, 1.84);
-                const scale = 30 / maxDimension;
-                model.scale.setScalar(scale);
-            }
+
+        // Set position and scale based on screen size
+        if (isMobile()) {
+            model.position.set(-3.0, -45, -25.3);
+            model.scale.set(1, 1, 1); // Smaller scale for mobile
+        } else {
+            model.position.set(-3.84, -15, -21.3);
+            model.scale.set(2, 2, 2); // Original scale for desktop
+            model.rotation.set(0, 0, 0);
         }
+
+        if(isMobile()) {
+            camera.position.set(0, 2, 90);
+        }
+
+        // Set perfect rotation (y = 87 degrees)
+        model.rotation.set(
+            0,  // X rotation
+            THREE.MathUtils.degToRad(87), // Y rotation
+            0   // Z rotation
+        );
+        
+        // Setup animations
+        mixer = new THREE.AnimationMixer(model);
+        
+        // Play all animations
+        gltf.animations.forEach((clip) => {
+            const action = mixer.clipAction(clip);
+            action.play();
+        });
         
         scene.add(model);
-        updateModelPosition();
-        window.addEventListener('resize', updateModelPosition);
-        controls.target.set(0, 0, 0);
-        controls.update();
     },
     // Progress callback
-    (progress) => {
-        const percentComplete = (progress.loaded / progress.total) * 100;
+    function (xhr) {
+        const percentComplete = (xhr.loaded / xhr.total) * 100;
         updateLoadingProgress(percentComplete);
     },
     // Error callback
-    (error) => {
-        console.error('An error occurred loading the model:', error);
-        // Hide loader and show content even if model fails to load
+    function (error) {
+        console.error('Error loading model:', error);
         const loaderElement = document.getElementById('loader');
         if (loaderElement) {
             loaderElement.style.opacity = "0";
@@ -159,46 +198,22 @@ loader.load('./assets/scene3.glb',
     }
 );
 
-// Add lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 5, 5);
-scene.add(directionalLight);
-
-// Handle window resize
-window.addEventListener('resize', onWindowResize, false);
-
-// Update the model positioning function
-function updateModelPosition() {
-    if (window.innerWidth < 768) { // md breakpoint
-        model.position.set(0, -10, 1.84); // Centered and adjusted height for mobile
-    } else {
-        model.position.set(25, -6.2, 1.84); // Original position for md and up
-    }
-}
-
-// Update camera position for mobile
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    
-    if (window.innerWidth < 768) {
-        camera.position.set(0, -10, 65); // Adjusted for better mobile view
-    } else {
-        camera.position.set(0, 0, 51.2); // Original position
-    }
-    camera.updateProjectionMatrix();
-}
-
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
+    
+    if (mixer) {
+        const delta = clock.getDelta();
+        mixer.update(delta);
+    }
+    
     controls.update();
     renderer.render(scene, camera);
 }
 
 animate();
+
+// Error handling
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e);
+});
