@@ -73,7 +73,8 @@ async function initializeThreeJS() {
         uniforms: {
             uTime: { value: 0 },
             uColorChange: { value: 0 },
-            uOpacity: { value: 1.0 }
+            uOpacity: { value: 1.0 },
+            uMorphProgress: { value: 0.0 }
         },
         transparent: true
     });
@@ -102,7 +103,10 @@ async function initializeThreeJS() {
             // Start animation after 1.5 seconds
             setTimeout(() => {
                 if (window.innerWidth >= 768) {
-                    gsap.to(mesh.position, {
+                    // Original animation timeline
+                    const tl = gsap.timeline();
+                    
+                    tl.to(mesh.position, {
                         y: 0,
                         z: -2,
                         duration: 2,
@@ -115,14 +119,22 @@ async function initializeThreeJS() {
                                     gsap.to(".landing p", {
                                         opacity: 1,
                                         duration: 0.8,
-                                        ease: "power2.inOut"
+                                        ease: "power2.inOut",
+                                        onComplete: () => {
+                                            // Start shape morphing after text animations
+                                            gsap.to(material.uniforms.uMorphProgress, {
+                                                value: 15, // Will cycle through all 15 shapes
+                                                duration: 500, // 60 seconds total (4 seconds per shape)
+                                                ease: "none"
+                                            });
+                                        }
                                     });
                                 }
                             });
                         }
                     });
 
-                    // Color and opacity changes
+                    // Original color and opacity animations
                     gsap.to(material.uniforms.uColorChange, {
                         value: 1,
                         duration: 2,
