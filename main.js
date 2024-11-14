@@ -2,6 +2,7 @@ import * as THREE from "./node_modules/three/build/three.module.js";
 import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "./node_modules/three/examples/jsm/loaders/GLTFLoader.js";
 import { RGBELoader } from "./node_modules/three/examples/jsm/loaders/RGBELoader.js";
+import { FBXLoader } from './node_modules/three/examples/jsm/loaders/FBXLoader.js';
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -79,12 +80,23 @@ window.addEventListener("resize", function () {
             model.scale.set(2, 2, 2); // Update scale on resize for desktop
         }
     }
+
+    // Update character position when screen size changes
+    if (character) {
+        if (isMobile()) {
+            character.position.set(-25, -30, -7);
+            character.scale.set(0.07, 0.07, 0.07);
+        } else {
+            character.position.set(-55, -3, -7);
+            character.scale.set(0.11, 0.11, 0.11);
+        }
+    }
 });
 
 // HDRI loader
 const rgbeLoader = new RGBELoader();
 rgbeLoader.load(
-    'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dark_forest_1k.hdr',
+    'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rainforest_trail_1k.hdrsc',
     function (texture) {
         texture.mapping = THREE.EquirectangularReflectionMapping;
         scene.environment = texture;
@@ -129,6 +141,140 @@ let mixer;
 
 // Load the model
 const loader = new GLTFLoader();
+
+// Add these new variables at the top
+let birds = [];
+let character;
+let characterMixer;
+const birdPaths = [
+    './assets/bird.glb', // You'll need to download a bird model
+];
+
+// Add this function to create birds
+function createBirds() {
+    const birdLoader = new GLTFLoader();
+    
+    for(let i = 0; i < 5; i++) {
+        birdLoader.load(birdPaths[0], (gltf) => {
+            const bird = gltf.scene;
+            
+            // Add these lines to ensure proper depth rendering
+            bird.traverse((child) => {
+                if (child.isMesh) {
+                    child.material.depthTest = true;
+                    child.material.depthWrite = true;
+                    child.renderOrder = 0; // Ensure default render order
+                }
+            });
+            
+            // Random position around the main model
+            bird.position.set(
+                Math.random() * 100 - 50,
+                Math.random() * 30 + 10,
+                Math.random() * 100 - 20
+            );
+            
+            // Scale the bird appropriately
+            bird.scale.set(0.2, 0.2, 0.2);
+            
+            // Setup bird animation
+            const birdMixer = new THREE.AnimationMixer(bird);
+            if(gltf.animations.length) {
+                const flyAction = birdMixer.clipAction(gltf.animations[0]);
+                flyAction.play();
+            }
+            
+            birds.push({
+                model: bird,
+                mixer: birdMixer,
+                initialPosition: bird.position.clone(),
+                phase: Math.random() * Math.PI * 2
+            });
+            
+            scene.add(bird);
+        });
+    }
+}
+
+// Add this function to create the waving character
+function createCharacter() {
+    const characterLoader = new FBXLoader();
+    characterLoader.load('./assets/Waving.fbx', (fbx) => {
+        character = fbx;
+        
+        // Set position and scale based on screen size
+        if (isMobile()) {
+            character.position.set(-26, -35, -15); // Adjusted position for mobile
+            character.scale.set(0.04, 0.04, 0.04); // Smaller scale for mobile
+        } else {
+            character.position.set(-55, -3, -7); // Original desktop position
+            character.scale.set(0.11, 0.11, 0.11); // Original desktop scale
+        }
+        
+        // Rotate to face towards the center/camera
+        
+        // Setup character animation
+        characterMixer = new THREE.AnimationMixer(character);
+        if(character.animations.length) {
+            const waveAction = characterMixer.clipAction(character.animations[0]);
+            waveAction.play();
+        }
+        
+        // Remove cloud effect and just add a subtle glow
+        const characterLight = new THREE.PointLight(0x7928CA, 1, 10);
+        characterLight.position.copy(character.position);
+        
+        scene.add(character);
+        scene.add(characterLight);
+    });
+}
+
+// Modify your existing animate function
+function animate() {
+    requestAnimationFrame(animate);
+    
+    const delta = clock.getDelta();
+    
+    // Update main model mixer
+    if (mixer) {
+        mixer.update(delta);
+    }
+    
+    // Update character mixer
+    if (characterMixer) {
+        characterMixer.update(delta);
+    }
+    
+    // Animate birds
+    birds.forEach((bird, index) => {
+        if(bird.mixer) {
+            bird.mixer.update(delta);
+        }
+        
+        // Flying motion
+        const time = Date.now() * 0.001;
+        const radius = 30;
+        
+        bird.model.position.x = bird.initialPosition.x + Math.sin(time + bird.phase) * radius;
+        bird.model.position.z = bird.initialPosition.z + Math.cos(time + bird.phase) * radius;
+        bird.model.position.y = bird.initialPosition.y + Math.sin(time * 2 + bird.phase) * 5;
+        
+        // Rotate bird in flying direction
+        const angle = Math.atan2(
+            bird.model.position.x - bird.model.position.prevX || 0,
+            bird.model.position.z - bird.model.position.prevZ || 0
+        );
+        bird.model.rotation.y = angle;
+        
+        bird.model.position.prevX = bird.model.position.x;
+        bird.model.position.prevZ = bird.model.position.z;
+    });
+    
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+// Call these functions after your main model is loaded
 loader.load(
     './assets/mobile_home.glb',
     function (gltf) {
@@ -177,6 +323,10 @@ loader.load(
             action.play();
         });
         
+        // Add these lines after the model is loaded
+        createBirds();
+        createCharacter();
+        
         scene.add(model);
     },
     // Progress callback
@@ -197,19 +347,6 @@ loader.load(
         }
     }
 );
-
-// Animation loop
-function animate() {
-    requestAnimationFrame(animate);
-    
-    if (mixer) {
-        const delta = clock.getDelta();
-        mixer.update(delta);
-    }
-    
-    controls.update();
-    renderer.render(scene, camera);
-}
 
 animate();
 
