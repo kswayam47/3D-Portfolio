@@ -566,4 +566,54 @@
     }
 }
 
+/* Add/update these styles */
+body.home-page {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    touch-action: none;
+    -webkit-overflow-scrolling: none;
+    overscroll-behavior: none;
+    background: black;
+}
+
+.fixed.inset-0 {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    touch-action: none;
+}
+
+#canvas {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Update mobile text container */
+@media (max-width: 768px) {
+    .absolute.w-full {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0 20px;
+        pointer-events: none;
+    }
+    
+    a[href="/about"] {
+        pointer-events: auto;
+    }
+    
+    .mb {
+        margin-bottom: 0 !important;
+    }
+}
+
 /*

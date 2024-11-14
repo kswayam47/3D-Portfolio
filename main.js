@@ -312,7 +312,7 @@ loader.load(
         // Set position and scale based on screen size
         if (isMobile()) {
             model.position.set(-6, -45, -45.3);
-            model.scale.set(0.022,0.022, 0.022);
+            model.scale.set(0.018,0.018, 0.018);
             camera.position.set(10, -50,100); // Adjusted camera position for mobile
             model.rotation.set(0,  THREE.MathUtils.degToRad(0), 0);
             
