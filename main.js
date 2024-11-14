@@ -3,8 +3,6 @@ import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitC
 import { GLTFLoader } from "./node_modules/three/examples/jsm/loaders/GLTFLoader.js";
 import { RGBELoader } from "./node_modules/three/examples/jsm/loaders/RGBELoader.js";
 import { FBXLoader } from './node_modules/three/examples/jsm/loaders/FBXLoader.js';
-
-// Scene setup
 const scene = new THREE.Scene();
 const canvas = document.querySelector("#canvas");
 
@@ -34,12 +32,37 @@ function isMobile() {
     return window.innerWidth <= 768;
 }
 
+// Add this at the top of your file with other global variables
+let lastIsMobile = isMobile(); // Store initial mobile state
+
+// Add this function to handle screen transition
+function handleScreenTransition() {
+    const currentIsMobile = isMobile();
+    
+    // Check if mobile state has changed
+    if (currentIsMobile !== lastIsMobile) {
+        // Show loading screen before reload
+        const loaderElement = document.getElementById('loader');
+        if (loaderElement) {
+            loaderElement.style.display = 'flex';
+            loaderElement.style.opacity = '1';
+        }
+        
+        // Small delay to ensure loading screen is visible
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
+    }
+    
+    lastIsMobile = currentIsMobile;
+}
+
 // Modify the background texture setup
 const textureLoader = new THREE.TextureLoader();
 function loadBackground() {
     const texturePath = isMobile() 
         ? './assets/env.jpg'  // Mobile background
-        : './assets/mists.png';     // Desktop background
+        : './assets/mists1.png';     // Desktop background
 
     textureLoader.load(
         texturePath,
@@ -60,37 +83,32 @@ function loadBackground() {
 // Call loadBackground initially
 loadBackground();
 
-// Update the resize event listener to handle background changes
-window.addEventListener("resize", function () {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    
-    // Reload background when screen size changes between mobile and desktop
-    loadBackground();
-    
-    // Update model position when screen size changes
-    const model = scene.getObjectByProperty('type', 'Group'); // Get the loaded model
-    if (model) {
-        if (isMobile()) {
-            model.position.setY(-50);
-            model.scale.set(0.8, 0.8, 0.8); // Update scale on resize for mobile
-        } else {
-            model.position.setY(-15);
-            model.scale.set(2, 2, 2); // Update scale on resize for desktop
+// Update the resize event listener
+window.addEventListener("resize", function() {
+    // Debounce the resize event
+    clearTimeout(window.resizeTimer);
+    window.resizeTimer = setTimeout(() => {
+        handleScreenTransition();
+        
+        // Only run these updates if we haven't triggered a reload
+        if (lastIsMobile === isMobile()) {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Existing resize code for model positions
+            const model = scene.getObjectByProperty('type', 'Group');
+            if (model) {
+                if (isMobile()) {
+                    model.position.set(-6, -45, -45.3);
+                    model.scale.set(0.8, 0.8, 0.8);
+                } else {
+                    model.position.set(-3.84, -15, -21.3);
+                    model.scale.set(2, 2, 2);
+                }
+            }
         }
-    }
-
-    // Update character position when screen size changes
-    if (character) {
-        if (isMobile()) {
-            character.position.set(-25, -30, -7);
-            character.scale.set(0.07, 0.07, 0.07);
-        } else {
-            character.position.set(-55, -3, -7);
-            character.scale.set(0.11, 0.11, 0.11);
-        }
-    }
+    }, 250); // 250ms debounce time
 });
 
 // HDRI loader
@@ -122,6 +140,11 @@ camera.position.set(0, 2, 90);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
+
+// Add this code to disable controls on mobile
+if (isMobile()) {
+    controls.enabled = false;
+}
 
 // Lighting
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -196,37 +219,30 @@ function createBirds() {
     }
 }
 
-// Add this function to create the waving character
+// Update the createCharacter function
 function createCharacter() {
-    const characterLoader = new FBXLoader();
-    characterLoader.load('./assets/Waving.fbx', (fbx) => {
-        character = fbx;
-        
-        // Set position and scale based on screen size
-        if (isMobile()) {
-            character.position.set(-26, -35, -15); // Adjusted position for mobile
-            character.scale.set(0.04, 0.04, 0.04); // Smaller scale for mobile
-        } else {
-            character.position.set(-55, -3, -7); // Original desktop position
-            character.scale.set(0.11, 0.11, 0.11); // Original desktop scale
-        }
-        
-        // Rotate to face towards the center/camera
-        
-        // Setup character animation
-        characterMixer = new THREE.AnimationMixer(character);
-        if(character.animations.length) {
-            const waveAction = characterMixer.clipAction(character.animations[0]);
-            waveAction.play();
-        }
-        
-        // Remove cloud effect and just add a subtle glow
-        const characterLight = new THREE.PointLight(0x7928CA, 1, 10);
-        characterLight.position.copy(character.position);
-        
-        scene.add(character);
-        scene.add(characterLight);
-    });
+    // Only create character for desktop
+    if (!isMobile()) {
+        const characterLoader = new FBXLoader();
+        characterLoader.load('./assets/Waving.fbx', (fbx) => {
+            character = fbx;
+            character.position.set(-55, -3, -7);
+            character.scale.set(0.11, 0.11, 0.11);
+            
+            // Setup character animation
+            characterMixer = new THREE.AnimationMixer(character);
+            if(character.animations.length) {
+                const waveAction = characterMixer.clipAction(character.animations[0]);
+                waveAction.play();
+            }
+            
+            const characterLight = new THREE.PointLight(0x7928CA, 1, 10);
+            characterLight.position.copy(character.position);
+            
+            scene.add(character);
+            scene.add(characterLight);
+        });
+    }
 }
 
 // Modify your existing animate function
@@ -274,9 +290,9 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-// Call these functions after your main model is loaded
+// Update the model loading section with adjusted mobile camera position
 loader.load(
-    './assets/mobile_home.glb',
+    isMobile() ? './assets/ballon.glb' : './assets/mobile_home.glb',
     function (gltf) {
         // Hide loader when model is ready
         const loaderElement = document.getElementById('loader');
@@ -296,23 +312,23 @@ loader.load(
         // Set position and scale based on screen size
         if (isMobile()) {
             model.position.set(-6, -45, -45.3);
-            model.scale.set(1, 1, 1); // Smaller scale for mobile
+            model.scale.set(0.022,0.022, 0.022);
+            camera.position.set(10, -50,100); // Adjusted camera position for mobile
+            model.rotation.set(0,  THREE.MathUtils.degToRad(0), 0);
+            
         } else {
             model.position.set(-3.84, -15, -21.3);
-            model.scale.set(2, 2, 2); // Original scale for desktop
+            model.scale.set(2, 2, 2);
             model.rotation.set(0, 0, 0);
-        }
-
-        if(isMobile()) {
-            camera.position.set(0, -20, 90);
+            model.rotation.set(
+                0,  // X rotation
+                THREE.MathUtils.degToRad(87), // Y rotation
+                0   // Z rotation
+            );
         }
 
         // Set perfect rotation (y = 87 degrees)
-        model.rotation.set(
-            0,  // X rotation
-            THREE.MathUtils.degToRad(87), // Y rotation
-            0   // Z rotation
-        );
+    
         
         // Setup animations
         mixer = new THREE.AnimationMixer(model);
@@ -323,9 +339,10 @@ loader.load(
             action.play();
         });
         
-        // Add these lines after the model is loaded
         createBirds();
-        createCharacter();
+        if (!isMobile()) {
+            createCharacter(); // Only create character for desktop
+        }
         
         scene.add(model);
     },
