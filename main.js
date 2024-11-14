@@ -315,6 +315,18 @@ loader.load(
             model.scale.set(0.018,0.018, 0.018);
             camera.position.set(10, -50,100); // Adjusted camera position for mobile
             model.rotation.set(0,  THREE.MathUtils.degToRad(0), 0);
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+            
+            document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+            });
+            
+            document.addEventListener('gesturechange', function(e) {
+                e.preventDefault();
+            });
+            
             
         } else {
             model.position.set(-3.84, -15, -21.3);
