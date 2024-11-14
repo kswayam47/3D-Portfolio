@@ -299,6 +299,7 @@
 
     button, a {
         font-family: 'Outfit', sans-serif !important;
+    color:black
     }
 
     /* Update the heading section styles */
@@ -376,6 +377,37 @@
     h1 span:hover {
         transform: translateY(-2px) scale(1.02);
         transition: all 0.3s ease;
+    }
+
+    /* Add these new responsive text color styles */
+    @media (min-width: 640px) {
+        /* Desktop/laptop styles */
+        h1, p, .loading-text, .loading-percent {
+            color: white !important;
+        }
+        .absolute h1 span {
+            color: rgba(255, 255, 255, 0.98) !important;
+        }
+        .absolute p {
+            color: rgba(229, 231, 235, 0.9) !important;
+        }
+    }
+
+    @media (max-width: 639px) {
+        /* Mobile styles */
+        h1, p{
+            color: black !important;
+        }
+        .absolute h1 span {
+            color: rgba(0, 0, 0, 0.98) !important;
+        }
+        .absolute p,a[href="/about"]  {
+            color: rgba(0, 0, 0, 0.9) !important;
+            font-weight: bold ;
+        }
+        .text-shadow-lg, .text-shadow-md, .text-shadow-mystical {
+            text-shadow: none; /* Remove text shadows on mobile for better readability */
+        }
     }
 
   </style>
