@@ -216,8 +216,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Create sphere geometry
         const geometry = new THREE.IcosahedronGeometry(
-            isMobile() ? 0.9 : 1.4, // Reduce radius on mobile
-            24
+            isMobile() ? 1.0 : 1.4, // Reduce radius on mobile
+            isMobile() ? 35 : 70    // Reduce segments on mobile
         );
 const uniforms={
     uTime:{value:0},
