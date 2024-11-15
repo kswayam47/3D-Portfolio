@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Create sphere geometry
         const geometry = new THREE.IcosahedronGeometry(
-            isMobile() ? 1.0 : 1.4, // Reduce radius on mobile
+            isMobile() ? 1.2 : 1.4, // Reduce radius on mobile
             isMobile() ? 35 : 70    // Reduce segments on mobile
         );
 const uniforms={
@@ -303,7 +303,7 @@ void main() {
            mytext.fontSize = window.innerWidth <= 768 ? 
                Math.min(window.innerWidth/1200, 0.8) : // Increased mobile size (changed from 2500 to 1200)
                Math.min(window.innerWidth/4500, 0.35);  // Desktop size unchanged
-           mytext.glyphGeometryDetail = 20;
+           mytext.glyphGeometryDetail = 32;
            mytext.fontWeight = 700;
            mytext.sync();
            scene.add(mytext);
