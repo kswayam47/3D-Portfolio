@@ -17,6 +17,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
+// Add MIME type configuration for .glsl files
+app.use((req, res, next) => {
+    if (req.url.endsWith('.glsl')) {
+        res.type('text/plain'); // Set correct MIME type for GLSL files
+    }
+    next();
+});
+
 // Create email transporter
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -110,6 +118,29 @@ app.get('/contact', (req, res) => {
 app.get('/projects', (req, res) => {
     res.sendFile(path.join(__dirname, 'projects.html'));
 });
+app.get('/skills', (req, res) => {
+    res.sendFile(path.join(__dirname, 'skills.html'));
+});
+
+// Update the shader route
+app.get('/shaders/:filename', (req, res) => {
+    // Remove the .glsl extension check since we handle it with MIME type above
+    res.sendFile(path.join(__dirname, 'shaders', req.params.filename));
+});
+
+// Serve static files from node_modules
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
+// Serve your public files
+app.use(express.static('public'));
+app.use('/node_modules/bidi-js', express.static(path.join(__dirname, 'node_modules/bidi-js')));
+
+// Add this to your existing static routes
+app.use('/node_modules/webgl-sdf-generator', express.static(path.join(__dirname, 'node_modules/webgl-sdf-generator')));
+app.use('/node_modules/troika-worker-utils', express.static(path.join(__dirname, 'node_modules/troika-worker-utils')));
+app.use('/node_modules/troika-three-utils', express.static(path.join(__dirname, 'node_modules/troika-three-utils')));
+
+// Add this with your other static routes
+app.use('/fonts', express.static(path.join(__dirname, 'assets/fonts')));
 
 // Start server
 const PORT = process.env.PORT || 3000;

@@ -50,11 +50,6 @@ function initializeScrollAnimations() {
                 duration: 0.5,
                 ease: 'power2.out'
             }, '-=0.4')
-            .to(content, {
-                x: index % 2 === 0 ? 10 : -10,
-                duration: 0.4,
-                ease: 'power2.out'
-            }, '-=0.4')
             .to(techStack.children, {
                 scale: 1.1,
                 stagger: 0.05,
@@ -87,12 +82,6 @@ function initializeScrollAnimations() {
                 ease: 'power3.out'
             });
 
-            gsap.to(content, {
-                x: 0,
-                duration: 0.6,
-                ease: 'power3.out'
-            });
-
             gsap.to(techStack.children, {
                 scale: 1,
                 duration: 0.3,
@@ -109,7 +98,7 @@ function initializeScrollAnimations() {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
         if (isMobile) {
-            // For mobile devices, create a continuous animation loop
+            // For mobile devices, create a simplified animation loop
             const loopAnimation = () => {
                 const tl = gsap.timeline({
                     repeat: -1,
@@ -117,30 +106,38 @@ function initializeScrollAnimations() {
                     repeatDelay: 1
                 });
                 
-                tl.add(playHoverAnimation());
-                
-                // Add continuous particle animation
-                const particleInterval = setInterval(() => {
-                    createParticles(card);
-                }, 2000); // Create particles every 2 seconds (1s animation + 1s break)
+                tl.to(card, {
+                    y: -15,
+                    scale: 1.02,
+                    boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)',
+                    duration: 0.4,
+                    ease: 'power2.out'
+                })
+                .to(image, {
+                    scale: 1.05,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                }, '-=0.4')
+                .to(techStack.children, {
+                    scale: 1.1,
+                    stagger: 0.05,
+                    duration: 0.2,
+                    ease: 'back.out(1.7)'
+                }, '-=0.3')
+                .to(title, {
+                    backgroundSize: '200%',
+                    backgroundPosition: '100%',
+                    duration: 0.4
+                }, '-=0.4');
 
-                // Cleanup interval when card is out of view
-                ScrollTrigger.create({
-                    trigger: card,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    onLeave: () => {
-                        clearInterval(particleInterval);
-                        gsap.killTweensOf(card);
-                    },
-                    onLeaveBack: () => {
-                        clearInterval(particleInterval);
-                        gsap.killTweensOf(card);
-                    }
-                });
-
+                createParticles(card);
                 return tl;
             };
+
+            // Keep the particle interval
+            const particleInterval = setInterval(() => {
+                createParticles(card);
+            }, 2000);
 
             // Start the loop animation when the card becomes visible
             ScrollTrigger.create({

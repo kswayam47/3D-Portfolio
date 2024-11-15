@@ -173,135 +173,129 @@ const birdPaths = [
     './assets/bird.glb', // You'll need to download a bird model
 ];
 
-// Add this function to create birds
-function createBirds() {
-    const birdLoader = new GLTFLoader();
-    
-    for(let i = 0; i < 5; i++) {
-        birdLoader.load(birdPaths[0], (gltf) => {
-            const bird = gltf.scene;
-            
-            // Add these lines to ensure proper depth rendering
-            bird.traverse((child) => {
-                if (child.isMesh) {
-                    child.material.depthTest = true;
-                    child.material.depthWrite = true;
-                    child.renderOrder = 0; // Ensure default render order
-                }
-            });
-            
-            // Random position around the main model
-            bird.position.set(
-                Math.random() * 100 - 50,
-                Math.random() * 30 + 10,
-                Math.random() * 100 - 20
-            );
-            
-            // Scale the bird appropriately
-            bird.scale.set(0.2, 0.2, 0.2);
-            
-            // Setup bird animation
-            const birdMixer = new THREE.AnimationMixer(bird);
-            if(gltf.animations.length) {
-                const flyAction = birdMixer.clipAction(gltf.animations[0]);
-                flyAction.play();
-            }
-            
-            birds.push({
-                model: bird,
-                mixer: birdMixer,
-                initialPosition: bird.position.clone(),
-                phase: Math.random() * Math.PI * 2
-            });
-            
-            scene.add(bird);
-        });
-    }
-}
+// Add these variables at the top
+let totalModelsToLoad = 0;
+let loadedModels = 0;
 
-// Update the createCharacter function
-function createCharacter() {
-    // Only create character for desktop
-    if (!isMobile()) {
-        const characterLoader = new FBXLoader();
-        characterLoader.load('./assets/Waving.fbx', (fbx) => {
-            character = fbx;
-            character.position.set(-55, -3, -7);
-            character.scale.set(0.11, 0.11, 0.11);
-            
-            // Setup character animation
-            characterMixer = new THREE.AnimationMixer(character);
-            if(character.animations.length) {
-                const waveAction = characterMixer.clipAction(character.animations[0]);
-                waveAction.play();
-            }
-            
-            const characterLight = new THREE.PointLight(0x7928CA, 1, 10);
-            characterLight.position.copy(character.position);
-            
-            scene.add(character);
-            scene.add(characterLight);
-        });
-    }
-}
-
-// Modify your existing animate function
-function animate() {
-    requestAnimationFrame(animate);
+// Create a function to update loading progress based on all models
+function updateTotalLoadingProgress() {
+    loadedModels++;
+    const progress = (loadedModels / totalModelsToLoad) * 100;
+    updateLoadingProgress(progress);
     
-    const delta = clock.getDelta();
-    
-    // Update main model mixer
-    if (mixer) {
-        mixer.update(delta);
-    }
-    
-    // Update character mixer
-    if (characterMixer) {
-        characterMixer.update(delta);
-    }
-    
-    // Animate birds
-    birds.forEach((bird, index) => {
-        if(bird.mixer) {
-            bird.mixer.update(delta);
-        }
-        
-        // Flying motion
-        const time = Date.now() * 0.001;
-        const radius = 30;
-        
-        bird.model.position.x = bird.initialPosition.x + Math.sin(time + bird.phase) * radius;
-        bird.model.position.z = bird.initialPosition.z + Math.cos(time + bird.phase) * radius;
-        bird.model.position.y = bird.initialPosition.y + Math.sin(time * 2 + bird.phase) * 5;
-        
-        // Rotate bird in flying direction
-        const angle = Math.atan2(
-            bird.model.position.x - bird.model.position.prevX || 0,
-            bird.model.position.z - bird.model.position.prevZ || 0
-        );
-        bird.model.rotation.y = angle;
-        
-        bird.model.position.prevX = bird.model.position.x;
-        bird.model.position.prevZ = bird.model.position.z;
-    });
-    
-    controls.update();
-    renderer.render(scene, camera);
-}
-
-// Update the model loading section with adjusted mobile camera position
-loader.load(
-    isMobile() ? './assets/ballon.glb' : './assets/mobile_home.glb',
-    function (gltf) {
-        // Hide loader when model is ready
+    // Only hide loader when all models are loaded
+    if (loadedModels === totalModelsToLoad) {
         const loaderElement = document.getElementById('loader');
         loaderElement.style.opacity = "0";
         setTimeout(() => {
             loaderElement.style.display = 'none';
             startTextAnimation();
         }, 500);
+    }
+}
 
+// Modify createCharacter function to return a Promise
+function createCharacter() {
+    return new Promise((resolve, reject) => {
+        if (!isMobile()) {
+            const characterLoader = new FBXLoader();
+            characterLoader.load(
+                './assets/Waving.fbx', 
+                (fbx) => {
+                    character = fbx;
+                    character.position.set(-55, -3, -7);
+                    character.scale.set(0.11, 0.11, 0.11);
+                    
+                    // Setup character animation
+                    characterMixer = new THREE.AnimationMixer(character);
+                    if(character.animations.length) {
+                        const waveAction = characterMixer.clipAction(character.animations[0]);
+                        waveAction.play();
+                    }
+                    
+                    const characterLight = new THREE.PointLight(0x7928CA, 1, 10);
+                    characterLight.position.copy(character.position);
+                    
+                    scene.add(character);
+                    scene.add(characterLight);
+                    updateTotalLoadingProgress();
+                    resolve();
+                },
+                undefined,
+                reject
+            );
+        } else {
+            resolve(); // Resolve immediately for mobile
+        }
+    });
+}
+
+// Modify createBirds function to return a Promise
+function createBirds() {
+    return new Promise((resolve, reject) => {
+        const birdLoader = new GLTFLoader();
+        let loadedBirds = 0;
+        const totalBirds = 5;
+
+        for(let i = 0; i < totalBirds; i++) {
+            birdLoader.load(
+                birdPaths[0],
+                (gltf) => {
+                    const bird = gltf.scene;
+                    
+                    // Add these lines to ensure proper depth rendering
+                    bird.traverse((child) => {
+                        if (child.isMesh) {
+                            child.material.depthTest = true;
+                            child.material.depthWrite = true;
+                            child.renderOrder = 0; // Ensure default render order
+                        }
+                    });
+                    
+                    // Random position around the main model
+                    bird.position.set(
+                        Math.random() * 100 - 50,
+                        Math.random() * 30 + 10,
+                        Math.random() * 100 - 20
+                    );
+                    
+                    // Scale the bird appropriately
+                    bird.scale.set(0.2, 0.2, 0.2);
+                    
+                    // Setup bird animation
+                    const birdMixer = new THREE.AnimationMixer(bird);
+                    if(gltf.animations.length) {
+                        const flyAction = birdMixer.clipAction(gltf.animations[0]);
+                        flyAction.play();
+                    }
+                    
+                    birds.push({
+                        model: bird,
+                        mixer: birdMixer,
+                        initialPosition: bird.position.clone(),
+                        phase: Math.random() * Math.PI * 2
+                    });
+                    
+                    scene.add(bird);
+                    loadedBirds++;
+                    if (loadedBirds === totalBirds) {
+                        updateTotalLoadingProgress();
+                        resolve();
+                    }
+                },
+                undefined,
+                reject
+            );
+        }
+    });
+}
+
+// Modify the main model loading section
+totalModelsToLoad = isMobile() ? 2 : 3; // Main model + birds (+ character for desktop)
+
+loader.load(
+    isMobile() ? './assets/ballon.glb' : './assets/mobile_home.glb',
+    function (gltf) {
         const model = gltf.scene;
         
         // Center the model
@@ -351,31 +345,75 @@ loader.load(
             action.play();
         });
         
-        createBirds();
-        if (!isMobile()) {
-            createCharacter(); // Only create character for desktop
-        }
-        
         scene.add(model);
+        updateTotalLoadingProgress();
+
+        // Load birds and character simultaneously
+        Promise.all([
+            createBirds(),
+            createCharacter()
+        ]).catch(error => {
+            console.error('Error loading additional models:', error);
+            updateTotalLoadingProgress(); // Ensure loader hides even if some models fail
+        });
     },
     // Progress callback
     function (xhr) {
-        const percentComplete = (xhr.loaded / xhr.total) * 100;
+        // This now only represents the main model's loading progress
+        const percentComplete = (xhr.loaded / xhr.total) * 100 / totalModelsToLoad;
         updateLoadingProgress(percentComplete);
     },
     // Error callback
     function (error) {
         console.error('Error loading model:', error);
-        const loaderElement = document.getElementById('loader');
-        if (loaderElement) {
-            loaderElement.style.opacity = "0";
-            setTimeout(() => {
-                loaderElement.style.display = 'none';
-                startTextAnimation();
-            }, 500);
-        }
+        updateTotalLoadingProgress(); // Ensure loader hides even if main model fails
     }
 );
+
+// Modify your existing animate function
+function animate() {
+    requestAnimationFrame(animate);
+    
+    const delta = clock.getDelta();
+    
+    // Update main model mixer
+    if (mixer) {
+        mixer.update(delta);
+    }
+    
+    // Update character mixer
+    if (characterMixer) {
+        characterMixer.update(delta);
+    }
+    
+    // Animate birds
+    birds.forEach((bird, index) => {
+        if(bird.mixer) {
+            bird.mixer.update(delta);
+        }
+        
+        // Flying motion
+        const time = Date.now() * 0.001;
+        const radius = 30;
+        
+        bird.model.position.x = bird.initialPosition.x + Math.sin(time + bird.phase) * radius;
+        bird.model.position.z = bird.initialPosition.z + Math.cos(time + bird.phase) * radius;
+        bird.model.position.y = bird.initialPosition.y + Math.sin(time * 2 + bird.phase) * 5;
+        
+        // Rotate bird in flying direction
+        const angle = Math.atan2(
+            bird.model.position.x - bird.model.position.prevX || 0,
+            bird.model.position.z - bird.model.position.prevZ || 0
+        );
+        bird.model.rotation.y = angle;
+        
+        bird.model.position.prevX = bird.model.position.x;
+        bird.model.position.prevZ = bird.model.position.z;
+    });
+    
+    controls.update();
+    renderer.render(scene, camera);
+}
 
 animate();
 
