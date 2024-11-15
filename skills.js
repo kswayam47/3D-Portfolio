@@ -75,6 +75,12 @@ document.head.appendChild(
 // Add at the top of your file
 let loadingScreen, progressBar, progressText;
 
+// Add these variables at the top
+const TOUCH_THRESHOLD = 50; // Minimum swipe distance to trigger animation
+let touchStartX = 0;
+let touchStartY = 0;
+let touchStartTime = 0;
+
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Get loading elements
@@ -313,6 +319,7 @@ void main() {
             if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
                 direction = Math.sign(e.deltaX);
             } else {
+                // For touch events, we'll primarily use deltaX
                 direction = Math.sign(e.deltaY);
             }
             
@@ -412,48 +419,43 @@ void main() {
             });
         });
 
+        // Replace the existing touch event handlers with these updated versions
+        window.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            if (isanimating || isScrollLocked) return;
+
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const touchEndTime = Date.now();
+            
+            const deltaX = touchStartX - touchEndX;
+            const deltaY = touchStartY - touchEndY;
+            const timeDiff = touchEndTime - touchStartTime;
+            
+            // Check if the swipe was fast enough and long enough
+            if (timeDiff < 300 && (Math.abs(deltaX) > TOUCH_THRESHOLD || Math.abs(deltaY) > TOUCH_THRESHOLD)) {
+                // Determine if horizontal swipe was more significant than vertical
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    // Create a synthetic wheel event with the appropriate delta
+                    const wheelEvent = new WheelEvent('wheel', {
+                        deltaX: deltaX * 2, // Amplify the effect
+                        deltaY: 0,
+                        bubbles: true
+                    });
+                    window.dispatchEvent(wheelEvent);
+                }
+            }
+        }, { passive: false });
+
+        // Remove the touchmove handler since we're using touchend for better control
+        window.removeEventListener('touchmove', null);
+
     } catch (error) {
         console.error('Failed to initialize Three.js:', error);
     }
 });
-
-// Optional: Add touch swipe support for mobile devices
-let touchStartX = 0;
-let touchStartY = 0;
-
-window.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-});
-
-// Update touch event handler similarly
-let touchTimeout;
-
-window.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    
-    if (isanimating || touchTimeout) return;
-    
-    const touchEndX = e.touches[0].clientX;
-    const touchEndY = e.touches[0].clientY;
-    
-    const deltaX = touchStartX - touchEndX;
-    const deltaY = touchStartY - touchEndY;
-    
-    // Only trigger if the movement is significant enough
-    if (Math.abs(deltaX) > 20 || Math.abs(deltaY) > 20) {
-        touchTimeout = setTimeout(() => {
-            touchTimeout = null;
-        }, scrollDelay);
-        
-        const wheelEvent = new WheelEvent('wheel', {
-            deltaX: deltaX,
-            deltaY: deltaY
-        });
-        
-        window.dispatchEvent(wheelEvent);
-    }
-    
-    touchStartX = touchEndX;
-    touchStartY = touchEndY;
-}, { passive: false });
