@@ -16,42 +16,49 @@ const ANIMATION_DURATION = 1000; // 1 second, match this with your GSAP animatio
 
 const blobs = [
     {
-        name: 'THREE JS',
-        background: '#111111',
-        config: { "uPositionFrequency": 0.3, "uPositionStrength": 1., "uSmallWavePositionFrequency": 2 ,"uSmallWavePositionStrength": 0.1, "roughness": 1, "metalness": 0, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "imaginarium" },
+        name: 'GSAP',
+        background: '#0B1D15',
+        config: { "uPositionFrequency": 0.28, "uPositionStrength": 0.62, "uSmallWavePositionFrequency": .59,"uSmallWavePositionStrength": 0.94,uSmallWaveTimeFrequency:"0", "roughness": 1, "metalness": 0, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "imaginarium" },
     },
- 
     {
         name: 'FRONT-END',
         background: '#0D0A2E',
         config: { "uPositionFrequency": 0.584, "uPositionStrength": 0.276, "uSmallWavePositionFrequency": 0.899, "uSmallWavePositionStrength": 1.266, "roughness": 0, "metalness": 1, "envMapIntensity": 2, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "deep-ocean" },
     },
+    
+    {
+        name: 'THREE JS',
+        background: '#111111',
+        config: { "uPositionFrequency": 0.3, "uPositionStrength": 1., "uSmallWavePositionFrequency": 2 ,"uSmallWavePositionStrength": 0.1, "roughness": 1, "metalness": 0, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "imaginarium" },
+    },
+ 
+
     {
         name: 'MERN STACK',
         background: '#130707',
-        config: { "uPositionFrequency": 1.022, "uPositionStrength": 0.99, "uSmallWavePositionFrequency": 0.378, "uSmallWavePositionStrength": 0.341, "roughness": 0.292, "metalness": 0.73, "envMapIntensity": 0.86, "clearcoat": 1, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "sunset-vibes" },
+        config: { "uPositionFrequency": 1.022, "uPositionStrength": 1.04, "uSmallWavePositionFrequency": 0.378, "uSmallWavePositionStrength": 0.541, "roughness": 0.292, "metalness": 0.73, "envMapIntensity": 0.86, "clearcoat": 1, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "sunset-vibes" },
     },
     {
         name: 'OOP',
         background: '#4B4D10',
         config: { "uPositionFrequency": 0.16, "uPositionStrength": 1.53, "uSmallWavePositionFrequency": 1.42, "uSmallWavePositionStrength": 0.3, "roughness": 0.3, "metalness": 0, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "pink-floyd" },
     },
-
+    {
+        name: '3d Modelling',
+        background: '#1C0A0A',
+        config: { "uPositionFrequency": 1.3, "uPositionStrength": 2.6, "uSmallWavePositionFrequency":.9 ,"uSmallWavePositionStrength": 0.1, "roughness": 1, "metalness": 0, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "passion" },
+    },
     {
         name: 'JAVA',
         background: '#0B1D15',
-        config: { "uPositionFrequency": 0.16, "uPositionStrength": 0, "uSmallWavePositionFrequency": 1.71,"uSmallWaveTimeFrequency":0.5, "uSmallWavePositionStrength": 0.1, "roughness": .1, "metalness": 1, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "passion" },
+        config: { "uPositionFrequency": 0.16, "uPositionStrength": 0, "uSmallWavePositionFrequency": 1.71,"uSmallWaveTimeFrequency":0.5, "uSmallWavePositionStrength": 0.1, "roughness": .1, "metalness": 1, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "cd" },
     },
     {
         name: 'DSA',
         background: '#000000',
-        config: { "uPositionStrength": 0.52, "uTimeFrequency": 1.24, "uPositionFrequency": 0.87, "uSmallWavePositionFrequency": 0.33, "uSmallWavePositionStrength": 0.43, "uSmallWaveTimeFrequency": 1.51, "roughness": 0.1, "metalness": 0.9, "envMapIntensity": 1.2, "clearcoat": 1.0, "clearcoatRoughness": 0.1, "transmission": 0, "flatShading": false, "wireframe": false, "map": "imaginarium" },
+        config: { "uPositionStrength": 0.92, "uTimeFrequency": 1.14, "uPositionFrequency": 0.57, "uSmallWavePositionFrequency": 0.23, "uSmallWavePositionStrength": 0.43, "uSmallWaveTimeFrequency": 1.51, "roughness": 0.1, "metalness": 0.9, "envMapIntensity": 1.2, "clearcoat": 1.0, "clearcoatRoughness": 0.1, "transmission": 0, "flatShading": false, "wireframe": false, "map": "imaginarium" },
     },
-    {
-        name: 'GSAP',
-        background: '#0B1D15',
-        config: { "uPositionFrequency": 0.28, "uPositionStrength": 0.62, "uSmallWavePositionFrequency": .59,"uSmallWavePositionStrength": 0.94,uSmallWaveTimeFrequency:"0", "roughness": 1, "metalness": 0, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "imaginarium" },
-    },
+  
 
 ]
 
@@ -155,17 +162,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                         stagger: 0.2,
                         ease: "power2.out"
                     });
-
-                    // Auto-hide scroll indicator after 5 seconds
-                    gsap.to('.scroll-indicator', {
-                        opacity: 0,
-                        duration: 0.5,
-                        delay: 3,
-                        ease: "power2.inOut",
-                        onComplete: () => {
-                            document.querySelector('.scroll-indicator').style.display = 'none';
-                        }
-                    });
+                    
+                    // Remove the auto-hide of scroll indicator
+                    // We'll handle this in the wheel event listener instead
                 }
             });
         };
@@ -201,7 +200,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Initialize scene, camera and renderer
         const scene = new THREE.Scene();
-        scene.background=new THREE.Color('#121215');
+        scene.background=new THREE.Color('#130707');
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         renderer.setSize(window.innerWidth, window.innerHeight);
     
@@ -311,9 +310,22 @@ void main() {
          });
          const bg=new THREE.Color(blobs[currentindex].background);
         
-        // Replace the existing wheel event listener
+        // Modify the wheel event listener
         window.addEventListener('wheel', (e) => {
             e.preventDefault();
+            
+            // Hide scroll indicator on first scroll
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (scrollIndicator && scrollIndicator.style.display !== 'none') {
+                gsap.to(scrollIndicator, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        scrollIndicator.style.display = 'none';
+                    }
+                });
+            }
             
             // If animation is in progress or scroll is locked, ignore the scroll
             if (isanimating || isScrollLocked) return;
@@ -436,6 +448,19 @@ void main() {
 
         window.addEventListener('touchend', (e) => {
             if (isanimating || isScrollLocked) return;
+
+            // Hide scroll indicator on first touch interaction
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (scrollIndicator && scrollIndicator.style.display !== 'none') {
+                gsap.to(scrollIndicator, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        scrollIndicator.style.display = 'none';
+                    }
+                });
+            }
 
             const touchEndX = e.changedTouches[0].clientX;
             const touchEndY = e.changedTouches[0].clientY;
