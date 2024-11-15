@@ -24,7 +24,7 @@ const blobs = [
     {
         name: 'FRONT-END',
         background: '#0D0A2E',
-        config: { "uPositionFrequency": 0.584, "uPositionStrength": 0.276, "uSmallWavePositionFrequency": 0.899, "uSmallWavePositionStrength": 1.266, "roughness": 0, "metalness": 1, "envMapIntensity": 2, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "purple-Rain" },
+        config: { "uPositionFrequency": 0.584, "uPositionStrength": 0.276, "uSmallWavePositionFrequency": 0.899, "uSmallWavePositionStrength": 1.266, "roughness": 0, "metalness": 1, "envMapIntensity": 2, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "deep-ocean" },
     },
     {
         name: 'MERN STACK',
@@ -80,6 +80,11 @@ const TOUCH_THRESHOLD = 50; // Minimum swipe distance to trigger animation
 let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
+
+// Add this function to check for mobile device
+function isMobile() {
+    return window.innerWidth <= 768;
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -210,7 +215,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         camera.position.z = 5;
 
         // Create sphere geometry
-        const geometry = new THREE.IcosahedronGeometry(1.5, 200);
+        const geometry = new THREE.IcosahedronGeometry(
+            isMobile() ? 0.9 : 1.4, // Reduce radius on mobile
+            24
+        );
 const uniforms={
     uTime:{value:0},
     uPositionStrength:{value:blobs[currentindex].config.uPositionStrength || 0},
@@ -293,8 +301,8 @@ void main() {
            }
            mytext.letterSpacing = 0;
            mytext.fontSize = window.innerWidth <= 768 ? 
-               Math.min(window.innerWidth/2500, 0.5) : // Mobile size
-               Math.min(window.innerWidth/4500, 0.35);  // Desktop size
+               Math.min(window.innerWidth/1200, 0.8) : // Increased mobile size (changed from 2500 to 1200)
+               Math.min(window.innerWidth/4500, 0.35);  // Desktop size unchanged
            mytext.glyphGeometryDetail = 20;
            mytext.fontWeight = 700;
            mytext.sync();
@@ -413,8 +421,8 @@ void main() {
         window.addEventListener('resize', () => {
             texts.forEach(text => {
                 text.fontSize = window.innerWidth <= 768 ? 
-                    Math.min(window.innerWidth/2500, 0.5) : // Mobile size
-                    Math.min(window.innerWidth/4500, 0.35);  // Desktop size
+                    Math.min(window.innerWidth/1200, 0.8) : // Increased mobile size (changed from 2500 to 1200)
+                    Math.min(window.innerWidth/4500, 0.35);  // Desktop size unchanged
                 text.sync();
             });
         });
