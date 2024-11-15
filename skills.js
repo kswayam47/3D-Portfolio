@@ -43,11 +43,7 @@ const blobs = [
         background: '#4B4D10',
         config: { "uPositionFrequency": 0.16, "uPositionStrength": 1.53, "uSmallWavePositionFrequency": 1.42, "uSmallWavePositionStrength": 0.3, "roughness": 0.3, "metalness": 0, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "pink-floyd" },
     },
-    {
-        name: '3d Modelling',
-        background: '#1C0A0A',
-        config: { "uPositionFrequency": 1.3, "uPositionStrength": 2.6, "uSmallWavePositionFrequency":.9 ,"uSmallWavePositionStrength": 0.1, "roughness": 1, "metalness": 0, "envMapIntensity": 0.5, "clearcoat": 0, "clearcoatRoughness": 0, "transmission": 0, "flatShading": false, "wireframe": false, "map": "passion" },
-    },
+ 
     {
         name: 'JAVA',
         background: '#0B1D15',
