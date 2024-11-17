@@ -51,7 +51,7 @@ const blobs = [
     },
     {
         name: 'DSA',
-        background: '#000000',
+        background: '#130707',
         config: { "uPositionStrength": 0.92, "uTimeFrequency": 1.14, "uPositionFrequency": 0.57, "uSmallWavePositionFrequency": 0.23, "uSmallWavePositionStrength": 0.43, "uSmallWaveTimeFrequency": 1.51, "roughness": 0.1, "metalness": 0.9, "envMapIntensity": 1.2, "clearcoat": 1.0, "clearcoatRoughness": 0.1, "transmission": 0, "flatShading": false, "wireframe": false, "map": "imaginarium" },
     },
   
@@ -62,9 +62,9 @@ const blobs = [
 //const customFont = 'https://fonts.gstatic.com/s/syncopate/v19/pe0sMIuPIYBCpEV5eFdCBfe5.woff2'; // Syncopate font
 
 // Alternative font options you can try (just replace the customFont value above with any of these):
- const customFont = 'https://fonts.gstatic.com/s/rajdhani/v15/LDI2apCSOBg7S-QT7pb0EPOqeeHkkbIxyyg.woff2'; // Rajdhani
-// const customFont = 'https://fonts.gstatic.com/s/chakrapetch/v9/cIf6MapbsEk7TDLdtEz1BwkWi6pgeL4.woff2'; // Chakra Petch
-// const customFont = 'https://fonts.gstatic.com/s/audiowide/v16/l7gdbjpo0cum0ckerWCdlg_O.woff2'; // Audiowide
+ //const customFont = 'https://fonts.gstatic.com/s/rajdhani/v15/LDI2apCSOBg7S-QT7pb0EPOqeeHkkbIxyyg.woff2'; // Rajdhani
+ //const customFont = 'https://fonts.gstatic.com/s/chakrapetch/v9/cIf6MapbsEk7TDLdtEz1BwkWi6pgeL4.woff2'; // Chakra Petch
+const customFont = 'https://fonts.gstatic.com/s/audiowide/v16/l7gdbjpo0cum0ckerWCdlg_O.woff2'; // Audiowide
 // const customFont = 'https://fonts.gstatic.com/s/exo2/v20/7cH1v4okm5zmbvwkAx_sfcEuiD8jvvKsN9C_.woff2'; // Exo 2
 
 // Add this import at the top
@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         // Load HDRI environment map using loading manager
         const texture = await rgbeLoader.loadAsync('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_09_1k.hdr');
+       // const texture = await rgbeLoader.loadAsync('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/klippad_dawn_2_1k.hdr');
         texture.mapping = THREE.EquirectangularReflectionMapping;
         scene.environment = texture;
         
@@ -300,7 +301,11 @@ void main() {
                Math.min(window.innerWidth/4500, 0.35);  // Desktop size unchanged
            mytext.glyphGeometryDetail = 32;
            mytext.fontWeight = 700;
+           if(isMobile){
+           mytext.letterSpacing =window.innerWidth <= 768 ? 0.08 :2;}
+        
            mytext.sync();
+
            scene.add(mytext);
            return mytext;
          });
@@ -330,12 +335,12 @@ void main() {
             isScrollLocked = true;
             isanimating = true;
             
-            // Determine direction based on the larger scroll value
+    
             let direction;
             if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
                 direction = Math.sign(e.deltaX);
             } else {
-                // For touch events, we'll primarily use deltaX
+                
                 direction = Math.sign(e.deltaY);
             }
             
@@ -483,6 +488,49 @@ void main() {
 
         // Remove the touchmove handler since we're using touchend for better control
         window.removeEventListener('touchmove', null);
+
+        // Add subtle continuous animation to the blob
+        function animateBlob() {
+            const time = performance.now() / 1000;
+            sphere.rotation.y = time * 0.1; // Slow constant rotation
+            sphere.position.y = Math.sin(time * 0.5) * 0.1 - 1; // Subtle floating effect
+        }
+
+        // Add to your animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            uniforms.uTime.value = performance.now() / 1000;
+            animateBlob();
+            renderer.render(scene, camera);
+        }
+
+        function createParticleBackground() {
+            const particleGeometry = new THREE.BufferGeometry();
+            const particleCount = 200;
+            
+            const positions = new Float32Array(particleCount * 3);
+            for(let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 10;
+                positions[i + 1] = (Math.random() - 0.5) * 10;
+                positions[i + 2] = (Math.random() - 0.5) * 10;
+            }
+            
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.5
+            });
+            
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+            
+            return particles;
+        }
+
+        const backgroundParticles = createParticleBackground();
 
     } catch (error) {
         console.error('Failed to initialize Three.js:', error);
