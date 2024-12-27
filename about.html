@@ -82,8 +82,9 @@
           <!-- New Introduction Section -->
           <div class="intro-section py-20 px-6 md:px-32">
               <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
-                  <div class="md:w-1/2">
-                      <img src="/assets/about.jpg" alt="Profile" class="rounded-2xl shadow-lg w-full border-gradient">
+                  <div class="md:w-1/2 w-full">
+                      <img src="/assets/about.jpg" alt="Profile" 
+                           class="rounded-2xl shadow-lg w-full h-[475px] md:h-auto object-cover border-gradient">
                   </div>
                   <div class="md:w-1/2 text-white">
                       <h2 class="text-4xl md:text-5xl font-bold mb-6 font-['Chillax']">Hello, I'm Swayam Mukesh Kewlani</h2>
@@ -136,42 +137,17 @@
               <h2 class="text-4xl font-bold mb-24 font-['Chillax'] text-center text-white">My Journey</h2>
               
               <div class="journey-timeline relative">
-                  <!-- Timeline Center Line - moved to left on mobile -->
+                  <!-- Timeline Center Line -->
                   <div class="absolute md:left-1/2 left-4 transform md:-translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-green-500"></div>
                   
                   <!-- Journey Items -->
+                  <!-- First: November 2023 -->
                   <div class="journey-item relative mb-32">
-                      <!-- Year Label -->
-                      <div class="year-label absolute -top-16 right-8  md:right-[55%] bg-black/80 px-4 md:px-6 py-2 md:py-3 rounded-full border-2 border-green-500 text-xl md:text-2xl text-white font-['Chillax'] glow-text backdrop-blur-sm">2024</div>
+                      <div class="year-label absolute -top-16 right-8 md:right-[55%] bg-black/80 px-4 md:px-6 py-2 md:py-3 rounded-full border-2 border-purple-500 text-xl md:text-2xl text-white font-['Chillax'] glow-text backdrop-blur-sm">Nov 2023</div>
                       
-                      <!-- Journey dot - Added this for the first card -->
-                      <div class="journey-dot absolute left-4 md:left-1/2 top-8 transform md:-translate-x-1/2 w-4 h-4 bg-green-500 rounded-full border-4 border-black shadow-[0_0_15px_rgba(0,255,0,0.3)]"></div>
-                      
-                      <!-- Content -->
                       <div class="journey-card ml-8 md:ml-auto w-[calc(100%-40px)] md:w-[45%]">
                           <div class="card-media">
-                              <img src="/assets/j2.jpg" alt="2024 Journey" class="w-full h-56 object-cover">
-                              <div class="card-overlay"></div>
-                          </div>
-                          <div class="card-content">
-                              <span class="tech-tag">MERN Stack</span>
-                              <span class="tech-tag">Three.js</span>
-                              <span class="tech-tag">WebGL</span>
-                              
-                              <h4 class="card-title">Mastering MERN Stack</h4>
-                              <p class="card-description">Dove deep into the MERN stack, building full-stack applications. Explored Three.js and began creating immersive 3D web experiences.</p>
-                          </div>
-                      </div>
-                  </div>
-
-                  <div class="journey-item relative mb-32">
-                      <!-- Year Label - adjusted for mobile -->
-                      <div class="year-label absolute -top-16 left-8 md:left-[55%] bg-black/80 px-4 md:px-6 py-2 md:py-3 rounded-full border-2 border-blue-500 text-xl md:text-2xl font-['Chillax'] glow-text backdrop-blur-sm text-white">2023</div>
-                      
-                      <!-- Content - always on right for mobile -->
-                      <div class="journey-card ml-8 md:mr-auto md:ml-0 w-[calc(100%-40px)] md:w-[45%]">
-                          <div class="card-media">
-                              <img src="/assets/j1.jpg" alt="2023 Journey" class="w-full h-56 object-cover">
+                              <img src="/assets/j1.jpg" alt="Frontend Journey" class="w-full h-56 object-cover">
                               <div class="card-overlay"></div>
                           </div>
                           <div class="card-content">
@@ -179,12 +155,53 @@
                               <span class="tech-tag">CSS</span>
                               <span class="tech-tag">JavaScript</span>
                               
-                              <h4 class="card-title">Started Web Development</h4>
-                              <p class="card-description">Began my journey into web development, learning HTML, CSS, and JavaScript. Created my first responsive websites and discovered my passion for frontend development.</p>
+                              <h4 class="card-title">The First Lines of Code</h4>
+                              <p class="card-description">Embarked on an exciting journey into web development, painting the digital canvas with HTML, styling with CSS, and bringing life with JavaScript. Every pixel became a possibility, every line of code a new adventure.</p>
                           </div>
                       </div>
-                      <!-- Journey dot - adjusted for mobile -->
+                      <div class="journey-dot absolute left-5 md:left-1/2 top-8 transform md:-translate-x-1/2 w-4 h-4 bg-purple-500 rounded-full border-4 border-black"></div>
+                  </div>
+
+                  <!-- Second: August 2024 -->
+                  <div class="journey-item relative mb-32">
+                      <div class="year-label absolute -top-16 left-8 md:left-[55%] bg-black/80 px-4 md:px-6 py-2 md:py-3 rounded-full border-2 border-blue-500 text-xl md:text-2xl text-white font-['Chillax'] glow-text backdrop-blur-sm">Aug 2024</div>
+                      
+                      <div class="journey-card ml-8 md:mr-auto md:ml-0 w-[calc(100%-40px)] md:w-[45%]">
+                          <div class="card-media">
+                              <img src="/assets/j2.jpg" alt="Backend Journey" class="w-full h-56 object-cover">
+                              <div class="card-overlay"></div>
+                          </div>
+                          <div class="card-content">
+                              <span class="tech-tag">Node.js</span>
+                              <span class="tech-tag">Express</span>
+                              <span class="tech-tag">MongoDB</span>
+                              
+                              <h4 class="card-title">Mastering the Backend Magic</h4>
+                              <p class="card-description">Embraced the power of backend development, crafting robust APIs and scalable server architectures. Where data flows like poetry and every request tells a story.</p>
+                          </div>
+                      </div>
                       <div class="journey-dot absolute left-4 md:left-1/2 top-8 transform md:-translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-black"></div>
+                  </div>
+
+                  <!-- Third: October 2024 -->
+                  <div class="journey-item relative mb-32">
+                      <div class="year-label absolute -top-16 right-8 md:right-[55%] bg-black/80 px-4 md:px-6 py-2 md:py-3 rounded-full border-2 border-green-500 text-xl md:text-2xl text-white font-['Chillax'] glow-text backdrop-blur-sm">Oct 2024</div>
+                      
+                      <div class="journey-card ml-8 md:ml-auto w-[calc(100%-40px)] md:w-[45%]">
+                          <div class="card-media">
+                              <img src="/assets/js.jpg" alt="Three.js Journey" class="w-full h-56 object-cover">
+                              <div class="card-overlay"></div>
+                          </div>
+                          <div class="card-content">
+                              <span class="tech-tag">Three.js</span>
+                              <span class="tech-tag">WebGL</span>
+                              <span class="tech-tag">3D Animation</span>
+                              
+                              <h4 class="card-title">Diving into the Third Dimension</h4>
+                              <p class="card-description">Ventured into the mesmerizing world of 3D web development with Three.js. Transforming flat designs into immersive experiences, bringing digital dreams to life one polygon at a time.</p>
+                          </div>
+                      </div>
+                      <div class="journey-dot absolute left-4 md:left-1/2 top-8 transform md:-translate-x-1/2 w-4 h-4 bg-green-500 rounded-full border-4 border-black shadow-[0_0_15px_rgba(0,255,0,0.3)]"></div>
                   </div>
               </div>
           </div>

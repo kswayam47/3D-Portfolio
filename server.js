@@ -128,21 +128,26 @@ app.get('/shaders/:filename', (req, res) => {
     res.sendFile(path.join(__dirname, 'shaders', req.params.filename));
 });
 
-// Serve static files from node_modules
-app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
-// Serve your public files
-app.use(express.static('public'));
-app.use('/node_modules/bidi-js', express.static(path.join(__dirname, 'node_modules/bidi-js')));
+// Fix the static paths handling
+const staticPaths = [
+    '/node_modules',
+    '/node_modules/bidi-js',
+    '/node_modules/webgl-sdf-generator',
+    '/node_modules/troika-worker-utils',
+    '/node_modules/troika-three-utils',
+    '/fonts'
+];
 
-// Add this to your existing static routes
-app.use('/node_modules/webgl-sdf-generator', express.static(path.join(__dirname, 'node_modules/webgl-sdf-generator')));
-app.use('/node_modules/troika-worker-utils', express.static(path.join(__dirname, 'node_modules/troika-worker-utils')));
-app.use('/node_modules/troika-three-utils', express.static(path.join(__dirname, 'node_modules/troika-three-utils')));
+staticPaths.forEach(pathStr => {
+    app.use(pathStr, express.static(pathStr.includes('node_modules') ? 
+        pathStr.replace('/node_modules', path.dirname(new URL(import.meta.url).pathname) + '/node_modules') : 
+        path.dirname(new URL(import.meta.url).pathname) + pathStr.replace('/fonts', '/assets/fonts'), {
+        maxAge: '1y',
+        etag: true,
+        lastModified: true
+    }));
+});
 
-// Add this with your other static routes
-app.use('/fonts', express.static(path.join(__dirname, 'assets/fonts')));
-
-// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

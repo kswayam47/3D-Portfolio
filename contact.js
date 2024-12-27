@@ -143,7 +143,9 @@ class Scene3D {
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.container,
             alpha: true,
-            antialias: true
+            antialias: true,
+            powerPreference: 'high-performance',
+            precision: 'mediump'
         });
         
         this.init();

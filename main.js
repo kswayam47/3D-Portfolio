@@ -57,27 +57,43 @@ function handleScreenTransition() {
     lastIsMobile = currentIsMobile;
 }
 
-// Modify the background texture setup
+// Optimize texture loading
 const textureLoader = new THREE.TextureLoader();
+textureLoader.crossOrigin = 'anonymous';
+
+// Preload and cache textures
+const textureCache = new Map();
+function loadTexture(path) {
+    if (textureCache.has(path)) {
+        return Promise.resolve(textureCache.get(path));
+    }
+    return new Promise((resolve, reject) => {
+        textureLoader.load(path, 
+            texture => {
+                textureCache.set(path, texture);
+                resolve(texture);
+            },
+            undefined,
+            reject
+        );
+    });
+}
+
+// Modify the background texture setup
 function loadBackground() {
     const texturePath = isMobile() 
         ? './assets/env.jpg'  // Mobile background
         : './assets/mists1.png';     // Desktop background
 
-    textureLoader.load(
-        texturePath,
-        function (texture) {
-            texture.minFilter = THREE.LinearFilter;
-            texture.magFilter = THREE.LinearFilter;
-            texture.format = THREE.RGBAFormat;
-            texture.needsUpdate = true;
-            scene.background = texture;
-        },
-        undefined,
-        function (error) {
-            console.error('Error loading background texture:', error);
-        }
-    );
+    loadTexture(texturePath).then(texture => {
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBAFormat;
+        texture.needsUpdate = true;
+        scene.background = texture;
+    }).catch(error => {
+        console.error('Error loading background texture:', error);
+    });
 }
 
 // Call loadBackground initially
