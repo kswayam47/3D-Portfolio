@@ -1,11 +1,11 @@
-/* Reset default styles */
+
 * {
     margin: 0;
     padding: 0;
    
 }
 
-/* Page specific styles */
+
 .page-about {
     
     
@@ -14,9 +14,6 @@
 }
 
 
-/* Ensure nav stays on top */
-
-/* Scrollbar styles */
 .page-about::-webkit-scrollbar {
     width: 12px !important;
     display: block !important;
@@ -35,16 +32,13 @@
     min-height: 40px !important;
 }
 
-/* Firefox scrollbar */
+
 .page-about {
     scrollbar-width: thin !important;
     scrollbar-color: rgba(147, 51, 234, 0.7) transparent !important;
 }
 
 
-/* White overlay */
-
-/* Add these styles */
 #profile-image {
     opacity: 0;
     transform: translate(-50%, -50%);
@@ -83,7 +77,6 @@
     transition: all 1s ease-in-out;
 }
 
-/* Add these responsive styles */
 @media (max-width: 768px) {
     #profile-image {
         opacity: 1;
@@ -112,7 +105,6 @@
     }
 }
 
-/* New section styles */
 .experience-card {
     transition: transform 0.3s ease;
 }
@@ -137,18 +129,18 @@
     }
 }
 
-/* Add these styles at the top of your CSS file */
+
 body {
     background: linear-gradient(180deg, 
         #000000 0%,
         #001a00 50%,
         #000000 100%
     );
-    background-attachment: fixed; /* This prevents gradient from repeating */
+    background-attachment: fixed; 
     min-height: 100vh;
 }
 
-/* Add overlay for sections to enhance content visibility */
+
 .intro-section,
 .journey-section,
 .approach-section {
@@ -159,7 +151,7 @@ body {
     border-bottom: 1px solid rgba(0, 255, 0, 0.1);
 }
 
-/* Update card backgrounds for better contrast */
+
 .journey-content {
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
@@ -171,7 +163,6 @@ body {
     backdrop-filter: blur(5px);
 }
 
-/* Add subtle glow effects */
 .journey-dot {
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
 }
@@ -181,7 +172,6 @@ body {
     box-shadow: 0 0 30px rgba(0, 255, 0, 0.15);
 }
 
-/* Update scrollbar colors to match theme */
 .page-about::-webkit-scrollbar-thumb {
     background-color: rgba(0, 255, 0, 0.3) !important;
 }
@@ -190,14 +180,14 @@ body {
     scrollbar-color: rgba(0, 255, 0, 0.3) transparent !important;
 }
 
-/* Add smooth transitions */
+
 .intro-section,
 .journey-section,
 .approach-section {
     transition: background-color 0.3s ease;
 }
 
-/* Optional: Add subtle animation to the gradient */
+
 @keyframes gradientFlow {
     0% {
         background-position: 0% 50%;
@@ -215,7 +205,6 @@ body {
     animation: gradientFlow 15s ease infinite;
 }
 
-/* Journey Section Styles */
 .journey-section {
     position: relative;
     overflow: hidden;
@@ -228,7 +217,7 @@ body {
 .journey-timeline::before {
     content: '';
     position: absolute;
-    left: 16px; /* Default for mobile */
+    left: 16px; 
     top: 0;
     bottom: 0;
     width: 2px;
@@ -317,7 +306,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Year Label Styles */
+
 .year-label {
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
@@ -336,14 +325,12 @@ body {
     transform: translateY(0);
 }
 
-/* Timeline Dot Styles */
 .journey-dot {
     z-index: 10;
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-    display: block; /* Ensure visibility on both screens */
+    display: block; 
 }
 
-/* Timeline Line Styles */
 .journey-timeline::before {
     content: '';
     position: absolute;
@@ -356,7 +343,7 @@ body {
     opacity: 0.3;
 }
 
-/* Animation for cards */
+
 @keyframes cardAppear {
     from {
         opacity: 0;
@@ -372,10 +359,9 @@ body {
     animation: cardAppear 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
-/* Add these mobile-specific styles */
 @media (max-width: 768px) {
     .journey-timeline::before {
-        left: 16px; /* Aligns with the dots */
+        left: 16px; 
         transform: none;
     }
 
@@ -384,12 +370,12 @@ body {
     }
 
     .year-label {
-        left: 32px !important; /* Force left alignment on mobile */
+        left: 32px !important; 
         transform: translateX(0) !important;
     }
 }
 
-/* Desktop styles */
+
 @media (min-width: 768px) {
     .journey-timeline::before {
         left: 50%;
@@ -397,21 +383,20 @@ body {
     }
 }
 
-/* Add these styles to adjust the paragraph position */
+
 .landing p {
-    transform: translateY(-50px); /* Move text up by 50px */
-    margin-top: -20px; /* Additional negative margin for fine-tuning */
+    transform: translateY(-50px); 
+    margin-top: -20px; 
 }
 
-/* Responsive adjustments for mobile */
+
 @media (max-width: 768px) {
     .landing p {
-        transform: translateY(-30px); /* Slightly less movement on mobile */
-        margin-top: -10px; /* Smaller negative margin for mobile */
+        transform: translateY(-30px); 
+        margin-top: -10px; 
     }
 }
 
-/* Updated styles for the image border effect */
 .border-gradient {
     position: relative;
     padding: 4px;
@@ -486,8 +471,6 @@ body {
         background-position: 0% 50%;
     }
 }
-
-/* Styles for the buttons */
 .intro-button {
     position: relative;
     padding: 0.75rem 2rem;
@@ -527,7 +510,6 @@ body {
     opacity: 1;
 }
 
-/* Add animation for buttons */
 @keyframes buttonPulse {
     0% {
         box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
@@ -544,7 +526,7 @@ body {
     animation: buttonPulse 1.5s infinite;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .intro-button {
         padding: 0.6rem 1.5rem;
@@ -552,7 +534,6 @@ body {
     }
 }
 
-/* Social icon link styles */
 .social-icon-link {
     transition: all 0.3s ease;
 }
@@ -569,22 +550,19 @@ body {
     filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.3));
 }
 
-/* Adjust spacing for mobile */
+
 @media (max-width: 768px) {
     .intro-section .flex-wrap {
         justify-content: center;
     }
     
-    /* Center social links on mobile */
     .intro-section .social-links {
         justify-content: center;
-        padding-right: 0; /* Remove right padding on mobile */
+        padding-right: 0; 
     }
 }
 
-/* Add these styles at the end of your CSS file */
 
-/* Mobile message styling */
 .landing .md\:hidden p {
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
@@ -606,7 +584,7 @@ body {
     }
 }
 
-/* Timeline Dot Styles - Updated for mobile */
+
 .journey-dot {
     z-index: 10;
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
@@ -615,15 +593,14 @@ body {
 
 @media (max-width: 768px) {
     .journey-dot {
-        left: 7.9px !important; /* Adjusted slightly more to the right */
+        left: 7.9px !important; 
     }
 }
 
-/* Add loading state styles */
 .journey-card-loading {
     background: rgba(255, 255, 255, 0.03);
     border-radius: 20px;
-    height: 400px; /* Approximate height of your cards */
+    height: 400px;
     position: relative;
     overflow: hidden;
 }

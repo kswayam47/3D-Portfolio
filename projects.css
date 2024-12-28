@@ -1,10 +1,9 @@
-/* Project Cards Container */
+
 .projects-container {
     max-width: 1400px;
     margin: 0 auto;
 }
 
-/* Project Card */
 .project-card {
     display: flex;
     gap: 0;
@@ -27,7 +26,7 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Project Content */
+
 .project-content {
     width: 40%;
     padding: 2rem;
@@ -60,7 +59,7 @@
     margin-bottom: 2rem;
 }
 
-/* Tech Stack Tags */
+
 .tech-stack {
     display: flex;
     flex-wrap: wrap;
@@ -84,7 +83,6 @@
     transform: translateY(-2px);
 }
 
-/* GitHub Link */
 .github-link {
     display: flex;
     align-items: center;
@@ -105,7 +103,7 @@
     transform: translateY(-2px);
 }
 
-/* Canvas Container */
+
 .project-image-container {
     position: absolute;
     right: 0;
@@ -133,7 +131,7 @@
     backface-visibility: hidden;
 }
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
     .project-card {
         flex-direction: column;
@@ -189,7 +187,7 @@
     }
 }
 
-/* Animation Classes */
+
 .fade-up {
     opacity: 0;
     transform: translateY(30px);
@@ -201,7 +199,7 @@
     transform: translateY(0);
 }
 
-/* Hover Effects */
+
 .project-card::after {
     content: '';
     position: absolute;
@@ -218,7 +216,7 @@
     opacity: 1;
 }
 
-/* Enhanced glow effect */
+
 .project-card::before {
     content: '';
     position: absolute;
@@ -246,15 +244,15 @@
     );
 }
 
-/* Enhanced image container */
+
 .project-image-container {
-    /* ... existing styles ... */
+    
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     perspective: 1000px;
 }
 
 .project-image {
-    /* ... existing styles ... */
+
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     backface-visibility: hidden;
 }

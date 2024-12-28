@@ -5,41 +5,41 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Configuration
+
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Add MIME type configuration for .glsl files
+
 app.use((req, res, next) => {
     if (req.url.endsWith('.glsl')) {
-        res.type('text/plain'); // Set correct MIME type for GLSL files
+        res.type('text/plain'); 
     }
     next();
 });
 
-// Create email transporter
+
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
     secure: false,
     auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS // This should be an App Password, not your regular Gmail password
+        pass: process.env.EMAIL_PASS 
     },
     requireTLS: true,
-    debug: true, // Enable debug logs
-    logger: true // Enable logger
+    debug: true, 
+    logger: true 
 });
 
-// Verify the connection configuration
+
 transporter.verify(function(error, success) {
     if (error) {
         console.log('Transporter verification error:', error);
@@ -48,11 +48,11 @@ transporter.verify(function(error, success) {
     }
 });
 
-// Email endpoint
+
 app.post('/send-email', async (req, res) => {
     const { name, email, phone, description } = req.body;
 
-    // Add validation
+    
     if (!name || !email || !description) {
         return res.status(400).json({ 
             success: false, 
@@ -61,7 +61,7 @@ app.post('/send-email', async (req, res) => {
     }
 
     try {
-        // Email content
+        
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: process.env.RECIPIENT_EMAIL,
@@ -76,14 +76,14 @@ app.post('/send-email', async (req, res) => {
             `
         };
 
-        // Add more detailed error logging
+        
         console.log('Attempting to send email with options:', {
             from: process.env.EMAIL_USER,
             to: process.env.RECIPIENT_EMAIL,
             subject: mailOptions.subject
         });
 
-        // Send email
+        
         await transporter.sendMail(mailOptions);
         
         res.json({ success: true, message: 'Email sent successfully' });
@@ -101,7 +101,7 @@ app.post('/send-email', async (req, res) => {
     }
 });
 
-// Add these routes before your email endpoint
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -114,7 +114,7 @@ app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, 'contact.html'));
 });
 
-// Add this route with your other routes
+
 app.get('/projects', (req, res) => {
     res.sendFile(path.join(__dirname, 'projects.html'));
 });
@@ -122,13 +122,13 @@ app.get('/skills', (req, res) => {
     res.sendFile(path.join(__dirname, 'skills.html'));
 });
 
-// Update the shader route
+
 app.get('/shaders/:filename', (req, res) => {
-    // Remove the .glsl extension check since we handle it with MIME type above
+ 
     res.sendFile(path.join(__dirname, 'shaders', req.params.filename));
 });
 
-// Fix the static paths handling
+
 const staticPaths = [
     '/node_modules',
     '/node_modules/bidi-js',

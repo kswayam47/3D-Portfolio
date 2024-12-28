@@ -156,7 +156,7 @@ button:hover .btn-glow {
     }
 }
 
-/* Form styling */
+
 .contact-form-container {
     transform: translateY(50px);
     opacity: 0;
@@ -201,7 +201,6 @@ button:hover .btn-glow {
     font-size: 0.875rem;
 }
 
-/* Submit button styling */
 .submit-button {
     position: relative;
     padding: 1rem 2rem;
@@ -243,7 +242,7 @@ button:hover .btn-glow {
     opacity: 1;
 }
 
-/* 3D Model container styling */
+
 .model-container {
     transform: translateX(50px);
     opacity: 0;
@@ -251,7 +250,7 @@ button:hover .btn-glow {
     animation-delay: 0.3s;
 }
 
-/* Text gradient */
+
 .text-gradient {
     background: linear-gradient(45deg, #60A5FA, #34D399);
     -webkit-background-clip: text;
@@ -294,7 +293,7 @@ button:hover .btn-glow {
     }
 }
 
-/* Loading animation for form submission */
+
 .submit-button.loading {
     position: relative;
     pointer-events: none;
@@ -320,7 +319,7 @@ button:hover .btn-glow {
     }
 }
 
-/* Success/Error message styling */
+
 .success-message {
     position: fixed;
     left: 50%;
@@ -347,7 +346,7 @@ button:hover .btn-glow {
     opacity: 1;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .contact-form-container {
         order: -1;
@@ -363,7 +362,7 @@ button:hover .btn-glow {
     opacity: 1;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .model-container {
         height: 400px;
@@ -371,13 +370,13 @@ button:hover .btn-glow {
     }
 }
 
-/* Form group styling */
+
 .form-group {
     position: relative;
     margin-bottom: 1.5rem;
 }
 
-/* Input and textarea styling */
+
 .form-group input,
 .form-group textarea {
     width: 100%;
@@ -390,7 +389,6 @@ button:hover .btn-glow {
     transition: all 0.3s ease;
 }
 
-/* Placeholder styling */
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: rgba(255, 255, 255, 0.6);
@@ -398,7 +396,7 @@ button:hover .btn-glow {
     font-size: 0.875rem;
 }
 
-/* Hide placeholder on focus and when typing */
+
 .form-group input:focus::placeholder,
 .form-group textarea:focus::placeholder,
 .form-group input:not(:placeholder-shown)::placeholder,
@@ -406,7 +404,7 @@ button:hover .btn-glow {
     opacity: 0;
 }
 
-/* Focus states */
+
 .form-group input:focus,
 .form-group textarea:focus {
     border-color: #60A5FA;
@@ -414,7 +412,7 @@ button:hover .btn-glow {
     outline: none;
 }
 
-/* Add responsive font sizes if needed */
+
 @media (min-width: 768px) {
     .form-group input,
     .form-group textarea,
@@ -424,7 +422,7 @@ button:hover .btn-glow {
     }
 }
 
-/* Remove any inherited font sizes */
+
 #name::placeholder,
 #email::placeholder,
 #phone::placeholder,
@@ -432,7 +430,7 @@ button:hover .btn-glow {
     font-size: 0.875rem !important;
 }
 
-/* Ensure input text size matches placeholder */
+
 #name,
 #email,
 #phone,

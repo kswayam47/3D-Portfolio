@@ -225,7 +225,7 @@ float organicShape13(vec3 pos) {
 }
 
 float organicShape14(vec3 pos) {
-    // Northern lights
+    
     float lights = 0.0;
     vec3 p = pos;
     for(int i = 1; i <= 3; i++) {
@@ -236,7 +236,7 @@ float organicShape14(vec3 pos) {
 }
 
 float organicShape15(vec3 pos) {
-    // Moonlight reflection
+    
     vec3 p = pos * 1.3;
     float reflection = smoothstep(-1.0, 1.0, sin(p.x + uTime) * sin(p.z - uTime));
     return (reflection * fbm(pos)) * 0.3;
@@ -246,17 +246,17 @@ void main() {
     vUv = uv;              
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     
-    // Base noise elevation (original shape)
+
     float noiseElevation = cnoise(position * 0.9 + uTime * 0.5) * 0.3;
     
-    // Calculate different shape influences
-    float shapeIndex = mod(floor(uMorphProgress * 15.0), 15.0); // 15 different shapes
+    
+    float shapeIndex = mod(floor(uMorphProgress * 15.0), 15.0); 
     float morphFactor = fract(uMorphProgress * 15.0);
     
     float currentShape = 0.0;
     float nextShape = 0.0;
     
-    // Define shape sequence
+    
     if(shapeIndex == 0.0) {
         currentShape = noiseElevation;
         nextShape = organicShape1(position);
@@ -307,17 +307,16 @@ void main() {
         nextShape = noiseElevation;
     }
     
-    // Interpolate between shapes
     float elevation = mix(currentShape, nextShape, morphFactor);
     
-    // Reduce overall elevation to prevent excessive deformation
+    
     elevation *= 0.8;
     vElevation = elevation;
     
-    // Enhance front-facing visibility
+    
     vec3 deformation = normal * elevation;
-    deformation.z *= 0.6; // Further reduce depth deformation
-    deformation.xy *= 1.2; // Enhance horizontal and vertical movement
+    deformation.z *= 0.6; 
+    deformation.xy *= 1.2; 
     
     modelPosition.xyz += deformation;
     

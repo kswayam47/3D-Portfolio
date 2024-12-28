@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills-page</title>
     
-    <!-- Import map must come before any module scripts -->
+    
     <script type="importmap">
     {
         "imports": {
@@ -24,7 +24,7 @@
     }
     </script>
 
-    <!-- Your existing modulepreloads -->
+    
     <link rel="modulepreload" href="./node_modules/three/build/three.module.js">
     <link rel="modulepreload" href="./node_modules/three/examples/jsm/controls/OrbitControls.js">
     <link rel="modulepreload" href="./node_modules/three/examples/jsm/loaders/RGBELoader.js">
@@ -36,10 +36,10 @@
     <link rel="modulepreload" href="./node_modules/troika-worker-utils/dist/troika-worker-utils.esm.js">
     <link rel="modulepreload" href="./node_modules/troika-three-utils/dist/troika-three-utils.esm.js">
     
-    <!-- Add GSAP CDN -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     
-    <!-- Updated Google Fonts - added Montserrat and Space Grotesk -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
@@ -186,6 +186,10 @@
         .loader-content {
             text-align: center;
             color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .loader-content h2 {
@@ -221,7 +225,7 @@
             opacity: 0.8;
         }
 
-        /* Hide main content while loading */
+        
         .loading .navbar,
         .loading .static-heading,
         .loading #skillscanvas {
@@ -252,12 +256,144 @@
             letter-spacing: 2px;
         }
 
+        .scene {
+            position: relative;
+            z-index: 1001;
+            height: 220px;
+            width: 220px;
+            display: grid;
+            place-items: center;
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        .cube-wrapper {
+            transform-style: preserve-3d;
+            animation: bouncing 2s infinite;
+        }
+
+        .cube {
+            transform-style: preserve-3d;
+            transform: rotateX(45deg) rotateZ(45deg);
+            animation: rotation 2s infinite;
+        }
+
+        .cube-faces {
+            transform-style: preserve-3d;
+            height: 80px;
+            width: 80px;
+            position: relative;
+            transform-origin: 0 0;
+            transform: translateX(0) translateY(0) translateZ(-40px);
+        }
+
+        .cube-face {
+            position: absolute;
+            inset: 0;
+            background: #8B5CF6;
+            border: solid 1px rgba(255, 255, 255, 0.2);
+            backface-visibility: visible;
+        }
+
+        .cube-face.shadow {
+            transform: translateZ(-80px);
+            animation: bouncing-shadow 2s infinite;
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .cube-face.top {
+            transform: translateZ(80px);
+        }
+
+        .cube-face.front {
+            transform-origin: 0 50%;
+            transform: rotateY(-90deg);
+        }
+
+        .cube-face.back {
+            transform-origin: 0 50%;
+            transform: rotateY(-90deg) translateZ(-80px);
+        }
+
+        .cube-face.right {
+            transform-origin: 50% 0;
+            transform: rotateX(-90deg) translateY(-80px);
+        }
+
+        .cube-face.left {
+            transform-origin: 50% 0;
+            transform: rotateX(-90deg) translateY(-80px) translateZ(80px);
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotateX(45deg) rotateY(0) rotateZ(45deg);
+                animation-timing-function: cubic-bezier(0.17,0.84,0.44,1);
+            }
+            50% {
+                transform: rotateX(45deg) rotateY(0) rotateZ(225deg);
+                animation-timing-function: cubic-bezier(0.76,0.05,0.86,0.06);
+            }
+            100% {
+                transform: rotateX(45deg) rotateY(0) rotateZ(405deg);
+                animation-timing-function: cubic-bezier(0.17,0.84,0.44,1);
+            }
+        }
+
+        @keyframes bouncing {
+            0% {
+                transform: translateY(-40px);
+                animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+            }
+            45% {
+                transform: translateY(40px);
+                animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+            }
+            100% {
+                transform: translateY(-40px);
+                animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+            }
+        }
+
+        @keyframes bouncing-shadow {
+            0% {
+                transform: translateZ(-80px) scale(1.3);
+                animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+                opacity: .05;
+            }
+            45% {
+                transform: translateZ(0);
+                animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+                opacity: .3;
+            }
+            100% {
+                transform: translateZ(-80px) scale(1.3);
+                animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+                opacity: .05;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="vignette-overlay"></div>
     <div class="loading-screen">
         <div class="loader-content">
+            <div class="scene" style="margin-bottom: 30px;">
+                <div class="cube-wrapper">
+                    <div class="cube">
+                        <div class="cube-faces">
+                            <div class="cube-face shadow"></div>
+                            <div class="cube-face bottom"></div>
+                            <div class="cube-face top"></div>
+                            <div class="cube-face left"></div>
+                            <div class="cube-face right"></div>
+                            <div class="cube-face back"></div>
+                            <div class="cube-face front"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <h2>Loading Experience</h2>
             <div class="progress-bar-container">
                 <div class="progress-bar"></div>

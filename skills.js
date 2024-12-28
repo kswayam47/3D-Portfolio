@@ -7,12 +7,12 @@ import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 let isanimating=false;
 let currentindex=0;
-// Add this near the top with other declarations
+
 const textureLoader = new THREE.TextureLoader();
 
-// Add these variables at the top with other declarations
+
 let isScrollLocked = false;
-const ANIMATION_DURATION = 1000; // 1 second, match this with your GSAP animation duration
+const ANIMATION_DURATION = 1000; 
 
 const blobs = [
     {
@@ -58,16 +58,15 @@ const blobs = [
 
 ]
 
-// At the top with other constants
+
 //const customFont = 'https://fonts.gstatic.com/s/syncopate/v19/pe0sMIuPIYBCpEV5eFdCBfe5.woff2'; // Syncopate font
 
-// Alternative font options you can try (just replace the customFont value above with any of these):
  //const customFont = 'https://fonts.gstatic.com/s/rajdhani/v15/LDI2apCSOBg7S-QT7pb0EPOqeeHkkbIxyyg.woff2'; // Rajdhani
  //const customFont = 'https://fonts.gstatic.com/s/chakrapetch/v9/cIf6MapbsEk7TDLdtEz1BwkWi6pgeL4.woff2'; // Chakra Petch
 const customFont = 'https://fonts.gstatic.com/s/audiowide/v16/l7gdbjpo0cum0ckerWCdlg_O.woff2'; // Audiowide
 // const customFont = 'https://fonts.gstatic.com/s/exo2/v20/7cH1v4okm5zmbvwkAx_sfcEuiD8jvvKsN9C_.woff2'; // Exo 2
 
-// Add this import at the top
+
 document.head.appendChild(
     Object.assign(document.createElement("link"), {
         rel: "stylesheet",
@@ -75,47 +74,47 @@ document.head.appendChild(
     })
 );
 
-// Add at the top of your file
+
 let loadingScreen, progressBar, progressText;
 
-// Add these variables at the top
-const TOUCH_THRESHOLD = 50; // Minimum swipe distance to trigger animation
+
+const TOUCH_THRESHOLD = 50; 
 let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
 
-// Add this function to check for mobile device
+
 function isMobile() {
     return window.innerWidth <= 768;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // Get loading elements
+        
         loadingScreen = document.querySelector('.loading-screen');
         progressBar = document.querySelector('.progress-bar');
         progressText = document.querySelector('.progress-text');
         
         document.body.classList.add('loading');
 
-        // Setup loading manager with progress tracking first
+
         const loadingManager = new THREE.LoadingManager();
         
-        // Create loaders with the loading manager
+        
         const rgbeLoader = new RGBELoader(loadingManager);
         const textureLoader = new THREE.TextureLoader(loadingManager);
 
         loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
             const progress = (itemsLoaded / itemsTotal * 100).toFixed(0);
             if (progressBar && progressText) {
-                // Animate the progress bar width
+            
                 gsap.to(progressBar, {
                     width: `${progress}%`,
                     duration: 0.5,
                     ease: "power1.out"
                 });
 
-                // Animate the progress text
+                
                 gsap.to(progressText, {
                     innerHTML: progress,
                     duration: 0.5,
@@ -130,11 +129,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.log(`Loading progress: ${progress}% (${itemsLoaded}/${itemsTotal})`);
         };
 
-        // Optional: Add specific loader progress tracking
+    
         loadingManager.onLoad = () => {
             console.log('Loading complete!');
             
-            // Start the animation loop
+            
             function animate() {
                 requestAnimationFrame(animate);
                 uniforms.uTime.value = performance.now() / 1000;
@@ -142,7 +141,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             animate();
 
-            // Fade out loading screen and show main content
+            
             gsap.to(loadingScreen, {
                 opacity: 0,
                 duration: 1,
@@ -151,7 +150,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     loadingScreen.style.display = 'none';
                     document.body.classList.remove('loading');
                     
-                    // Fade in the main content and scroll indicator
                     gsap.to(['#skillscanvas', '.static-heading', '.scroll-indicator'], {
                         opacity: 1,
                         duration: 1,
@@ -159,8 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         ease: "power2.out"
                     });
                     
-                    // Remove the auto-hide of scroll indicator
-                    // We'll handle this in the wheel event listener instead
+          
                 }
             });
         };
@@ -169,7 +166,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error loading:', url);
         };
 
-        // Fetch shaders
+    
         const vertexShader = await fetch('./shaders/skillvertex.glsl').then(r => r.text());
         const fragmentShader = await fetch('./shaders/skillfragment.glsl').then(r => r.text());
         const textvertexShader = await fetch('./shaders/textvertexshader.glsl').then(r => r.text());
@@ -179,7 +176,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw new Error('Canvas element not found');
         }
 
-        // Initialize renderer with error checking
+        
         const renderer = new THREE.WebGLRenderer({ 
             canvas: skillscanvas,
             antialias: true 
@@ -189,31 +186,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw new Error('Failed to initialize WebGL renderer');
         }
 
-        // Enable tone mapping and correct color space
+        
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1;
         renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-        // Initialize scene, camera and renderer
         const scene = new THREE.Scene();
         scene.background=new THREE.Color('#130707');
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         renderer.setSize(window.innerWidth, window.innerHeight);
     
-        // Load HDRI environment map using loading manager
+      
         const texture = await rgbeLoader.loadAsync('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_09_1k.hdr');
        // const texture = await rgbeLoader.loadAsync('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/klippad_dawn_2_1k.hdr');
         texture.mapping = THREE.EquirectangularReflectionMapping;
         scene.environment = texture;
         
-        // Add orbit controls
+        
       
         camera.position.z = 5;
-
-        // Create sphere geometry
         const geometry = new THREE.IcosahedronGeometry(
-            isMobile() ? 1.2 : 1.4, // Reduce radius on mobile
-            isMobile() ? 35 : 70    // Reduce segments on mobile
+            isMobile() ? 1.2 : 1.4, 
+            isMobile() ? 35 : 70    
         );
 const uniforms={
     uTime:{value:0},
@@ -224,7 +218,7 @@ const uniforms={
     uSmallWavePositionStrength:{value:blobs[currentindex].config.uSmallWavePositionStrength || 0.21},
     uSmallWaveTimeFrequency:{value:blobs[currentindex].config.uSmallWaveTimeFrequency || 0.47},
 }
-        // Create shader material with loading manager
+        
         const material = new CustomShaderMaterial({
             baseMaterial: THREE.MeshPhysicalMaterial,
             map: textureLoader.load(`./assets/gradients/${blobs[currentindex].config.map}.png`),
@@ -297,8 +291,8 @@ void main() {
            }
            mytext.letterSpacing = 0;
            mytext.fontSize = window.innerWidth <= 768 ? 
-               Math.min(window.innerWidth/1200, 0.8) : // Increased mobile size (changed from 2500 to 1200)
-               Math.min(window.innerWidth/4500, 0.35);  // Desktop size unchanged
+               Math.min(window.innerWidth/1200, 0.8) : 
+               Math.min(window.innerWidth/4500, 0.35);  
            mytext.glyphGeometryDetail = 32;
            mytext.fontWeight = 700;
            if(isMobile){
@@ -311,11 +305,11 @@ void main() {
          });
          const bg=new THREE.Color(blobs[currentindex].background);
         
-        // Modify the wheel event listener
+    
         window.addEventListener('wheel', (e) => {
             e.preventDefault();
             
-            // Hide scroll indicator on first scroll
+            
             const scrollIndicator = document.querySelector('.scroll-indicator');
             if (scrollIndicator && scrollIndicator.style.display !== 'none') {
                 gsap.to(scrollIndicator, {
@@ -328,10 +322,10 @@ void main() {
                 });
             }
             
-            // If animation is in progress or scroll is locked, ignore the scroll
+            
             if (isanimating || isScrollLocked) return;
             
-            // Lock scrolling immediately
+    
             isScrollLocked = true;
             isanimating = true;
             
@@ -349,7 +343,7 @@ void main() {
             texts[next].scale.set(0.5, 0.5, 0.5);
             texts[next].position.x = direction * 3.5;
             
-            // Update direction uniform for text animation
+            
             textMaterial.uniforms.direction.value = direction;
             
             gsap.to(textMaterial.uniforms.progress, {
@@ -362,14 +356,14 @@ void main() {
                     currentindex = next;
                     isanimating = false;
                     
-                    // Unlock scrolling after animation completes plus a small buffer
+                    
                     setTimeout(() => {
                         isScrollLocked = false;
-                    }, 100); // Add small buffer after animation
+                    }, 100); 
                 }
             });
             
-            // Rest of your animations...
+            
             gsap.to(texts[currentindex].position, {
                 x: -direction * 5,
                 duration: 1,
@@ -421,26 +415,26 @@ void main() {
             if (config.wireframe !== undefined) gsap.to(material, { wireframe: config.wireframe, duration: 1, ease: 'power2.inOut' });
         }
           
-        // Add this after creating the uniforms object and before the animation loop
+    
 
-        // Handle window resize
+        
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Move the resize handler inside the DOMContentLoaded scope
+        
         window.addEventListener('resize', () => {
             texts.forEach(text => {
                 text.fontSize = window.innerWidth <= 768 ? 
-                    Math.min(window.innerWidth/1200, 0.8) : // Increased mobile size (changed from 2500 to 1200)
-                    Math.min(window.innerWidth/4500, 0.35);  // Desktop size unchanged
+                    Math.min(window.innerWidth/1200, 0.8) : 
+                    Math.min(window.innerWidth/4500, 0.35);  
                 text.sync();
             });
         });
 
-        // Replace the existing touch event handlers with these updated versions
+        
         window.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
@@ -450,7 +444,7 @@ void main() {
         window.addEventListener('touchend', (e) => {
             if (isanimating || isScrollLocked) return;
 
-            // Hide scroll indicator on first touch interaction
+    
             const scrollIndicator = document.querySelector('.scroll-indicator');
             if (scrollIndicator && scrollIndicator.style.display !== 'none') {
                 gsap.to(scrollIndicator, {
@@ -471,13 +465,13 @@ void main() {
             const deltaY = touchStartY - touchEndY;
             const timeDiff = touchEndTime - touchStartTime;
             
-            // Check if the swipe was fast enough and long enough
+            
             if (timeDiff < 300 && (Math.abs(deltaX) > TOUCH_THRESHOLD || Math.abs(deltaY) > TOUCH_THRESHOLD)) {
-                // Determine if horizontal swipe was more significant than vertical
+            
                 if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                    // Create a synthetic wheel event with the appropriate delta
+                    
                     const wheelEvent = new WheelEvent('wheel', {
-                        deltaX: deltaX * 2, // Amplify the effect
+                        deltaX: deltaX * 2,
                         deltaY: 0,
                         bubbles: true
                     });
@@ -486,17 +480,16 @@ void main() {
             }
         }, { passive: false });
 
-        // Remove the touchmove handler since we're using touchend for better control
+        
         window.removeEventListener('touchmove', null);
 
-        // Add subtle continuous animation to the blob
+        
         function animateBlob() {
             const time = performance.now() / 1000;
-            sphere.rotation.y = time * 0.1; // Slow constant rotation
-            sphere.position.y = Math.sin(time * 0.5) * 0.1 - 1; // Subtle floating effect
+            sphere.rotation.y = time * 0.1; 
+            sphere.position.y = Math.sin(time * 0.5) * 0.1 - 1; 
         }
 
-        // Add to your animation loop
         function animate() {
             requestAnimationFrame(animate);
             uniforms.uTime.value = performance.now() / 1000;

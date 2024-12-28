@@ -3,16 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeScrollAnimations() {
-    // Initial setup for cards
+
     gsap.set('.project-card', { 
         opacity: 0,
         scale: 0.95,
         transformOrigin: 'center center'
     });
 
-    // Animate each project card
+    
     gsap.utils.toArray('.project-card').forEach((card, index) => {
-        // Create scroll trigger animation
+    
         gsap.to(card, {
             scrollTrigger: {
                 trigger: card,
@@ -26,7 +26,7 @@ function initializeScrollAnimations() {
             ease: 'elastic.out(1, 0.75)'
         });
 
-        // Get card elements
+    
         const content = card.querySelector('.project-content');
         const image = card.querySelector('.project-image-container');
         const title = card.querySelector('.project-title');
@@ -34,7 +34,7 @@ function initializeScrollAnimations() {
         const techStack = card.querySelector('.tech-stack');
         const githubLink = card.querySelector('.github-link');
 
-        // Function to play hover animation
+        
         const playHoverAnimation = () => {
             const tl = gsap.timeline();
             
@@ -66,7 +66,7 @@ function initializeScrollAnimations() {
             return tl;
         };
 
-        // Function to reverse hover animation
+    
         const reverseHoverAnimation = () => {
             gsap.to(card, {
                 y: 0,
@@ -94,50 +94,46 @@ function initializeScrollAnimations() {
             });
         };
 
-        // Check if it's a mobile device
+       
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-// In the initializeScrollAnimations function, update the mobile condition:
-
-// In the initializeScrollAnimations function, update the mobile condition:
 
 if (isMobile) {
-    // For mobile devices, only create particles periodically
+  
     ScrollTrigger.create({
         trigger: card,
         start: 'top bottom',
         end: 'bottom top',
         onEnter: () => {
-            // Start periodic particle creation
+            
             const particleInterval = setInterval(() => {
                 createParticles(card);
             }, 2000);
 
-            // Store the interval ID on the card element
             card.dataset.particleInterval = particleInterval;
         },
         onLeave: () => {
-            // Clear the interval when card is out of view
+            
             if (card.dataset.particleInterval) {
                 clearInterval(card.dataset.particleInterval);
             }
         },
         onEnterBack: () => {
-            // Restart particles when scrolling back up
+           
             const particleInterval = setInterval(() => {
                 createParticles(card);
             }, 2000);
             card.dataset.particleInterval = particleInterval;
         },
         onLeaveBack: () => {
-            // Clear the interval when card is out of view
+         
             if (card.dataset.particleInterval) {
                 clearInterval(card.dataset.particleInterval);
             }
         }
     });
 
-    // Initial animation to fade in the card (once, no continuous movement)
+
     gsap.to(card, {
         scrollTrigger: {
             trigger: card,
@@ -151,29 +147,28 @@ if (isMobile) {
         ease: 'power2.out'
     });
 } else {
-    // Desktop hover animations remain unchanged
+    
     card.addEventListener('mouseenter', playHoverAnimation);
     card.addEventListener('mouseleave', reverseHoverAnimation);
 }
     });
 }
 
-// Create floating particles effect
 function createParticles(card) {
-    const particles = 24; // Increased from 12 to 24
-    const colors = ['#FFFFFF', '#60A5FA', '#34D399', '#818CF8']; // Added white as first color
+    const particles = 24; 
+    const colors = ['#FFFFFF', '#60A5FA', '#34D399', '#818CF8']; 
     
     for (let i = 0; i < particles; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         card.appendChild(particle);
 
-        // Random starting position around the card
+        
         const startX = gsap.utils.random(-50, card.offsetWidth + 50);
         const startY = gsap.utils.random(-50, card.offsetHeight + 50);
         
-        // Random size for each particle
-        const size = gsap.utils.random(4, 12); // Varied sizes from 4px to 12px
+    
+        const size = gsap.utils.random(4, 12); 
 
         gsap.set(particle, {
             x: startX,
@@ -182,10 +177,10 @@ function createParticles(card) {
             width: size,
             height: size,
             backgroundColor: colors[Math.floor(Math.random() * colors.length)],
-            opacity: gsap.utils.random(0.3, 1) // Random initial opacity
+            opacity: gsap.utils.random(0.3, 1) 
         });
 
-        // More varied animation for each particle
+        
         gsap.to(particle, {
             y: startY - gsap.utils.random(100, 200),
             x: startX + gsap.utils.random(-50, 50),
