@@ -97,61 +97,64 @@ function initializeScrollAnimations() {
         // Check if it's a mobile device
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-        if (isMobile) {
-            // For mobile devices, create a simplified animation loop
-            const loopAnimation = () => {
-                const tl = gsap.timeline({
-                    repeat: -1,
-                    yoyo: true,
-                    repeatDelay: 1
-                });
-                
-                tl.to(card, {
-                    y: -15,
-                    scale: 1.02,
-                    boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)',
-                    duration: 0.4,
-                    ease: 'power2.out'
-                })
-                .to(image, {
-                    scale: 1.05,
-                    duration: 0.5,
-                    ease: 'power2.out'
-                }, '-=0.4')
-                .to(techStack.children, {
-                    scale: 1.1,
-                    stagger: 0.05,
-                    duration: 0.2,
-                    ease: 'back.out(1.7)'
-                }, '-=0.3')
-                .to(title, {
-                    backgroundSize: '200%',
-                    backgroundPosition: '100%',
-                    duration: 0.4
-                }, '-=0.4');
+// In the initializeScrollAnimations function, update the mobile condition:
 
-                createParticles(card);
-                return tl;
-            };
+// In the initializeScrollAnimations function, update the mobile condition:
 
-            // Keep the particle interval
+if (isMobile) {
+    // For mobile devices, only create particles periodically
+    ScrollTrigger.create({
+        trigger: card,
+        start: 'top bottom',
+        end: 'bottom top',
+        onEnter: () => {
+            // Start periodic particle creation
             const particleInterval = setInterval(() => {
                 createParticles(card);
             }, 2000);
 
-            // Start the loop animation when the card becomes visible
-            ScrollTrigger.create({
-                trigger: card,
-                start: 'top bottom',
-                end: 'bottom top',
-                onEnter: () => loopAnimation(),
-                onEnterBack: () => loopAnimation()
-            });
-        } else {
-            // For desktop, keep the hover events
-            card.addEventListener('mouseenter', playHoverAnimation);
-            card.addEventListener('mouseleave', reverseHoverAnimation);
+            // Store the interval ID on the card element
+            card.dataset.particleInterval = particleInterval;
+        },
+        onLeave: () => {
+            // Clear the interval when card is out of view
+            if (card.dataset.particleInterval) {
+                clearInterval(card.dataset.particleInterval);
+            }
+        },
+        onEnterBack: () => {
+            // Restart particles when scrolling back up
+            const particleInterval = setInterval(() => {
+                createParticles(card);
+            }, 2000);
+            card.dataset.particleInterval = particleInterval;
+        },
+        onLeaveBack: () => {
+            // Clear the interval when card is out of view
+            if (card.dataset.particleInterval) {
+                clearInterval(card.dataset.particleInterval);
+            }
         }
+    });
+
+    // Initial animation to fade in the card (once, no continuous movement)
+    gsap.to(card, {
+        scrollTrigger: {
+            trigger: card,
+            start: 'top bottom-=100',
+            end: 'top center',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        ease: 'power2.out'
+    });
+} else {
+    // Desktop hover animations remain unchanged
+    card.addEventListener('mouseenter', playHoverAnimation);
+    card.addEventListener('mouseleave', reverseHoverAnimation);
+}
     });
 }
 
